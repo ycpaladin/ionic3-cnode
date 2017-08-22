@@ -1,0 +1,41 @@
+cnode-list {
+  .icon {
+    border-radius: 50%;
+  }
+  .item {
+    padding: 0px 10px;
+  }
+  .item-inner {
+    padding-right: 0px!important;
+  }
+  h2.cnode-list-item-title {
+    white-space: nowrap;
+    word-break: normal;
+    word-wrap: break-word; // height: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer; // display: -webkit-box;
+    // -webkit-box-orient: vertical;
+    // -webkit-line-clamp: 2;
+  }
+  .top,
+  .good {
+    display: block;
+    color: #fff;
+    width: 40px;
+    background-color: #80bd01;
+    text-align: center;
+    border-radius: 10%;
+    float: left;
+    margin-right: 5px; // font-size: 16px;
+  }
+  .reply-count {
+    color: #9e78c0;
+  }
+  .visit-count {
+    color: #b4b4b4;
+  }
+  .right {
+    float: right;
+  }
+}

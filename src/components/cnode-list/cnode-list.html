@@ -1,0 +1,32 @@
+<ion-content class="cnode-list">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉获取最新" refreshingSpinner="circles" refreshingText="正在获取...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-item *ngFor="let item of data | async">
+      <!-- <ion-thumbnail item-start>
+        <img src="{{item.author.avatar_url}}" class="icon">
+      </ion-thumbnail> -->
+     <!-- <span class="item-title"></span>
+        <span class="right reply-count"> {{ item.reply_count}}</span>
+        <span class="right">/</span>
+        <span class="right visit-count">{{item.visit_count}}</span>  -->
+
+       <h2 (click)="to(item)" class="cnode-list-item-title">{{item.title}}
+        
+      </h2> 
+      <!-- <ion-title (click)="to(item)">{{ item.title }}</ion-title> -->
+      <div>
+        <span [class.top]="item.top" *ngIf="item.top">置顶</span>
+        <span [class.good]="item.good" *ngIf="item.good">精华</span>
+        <span>{{item.author.loginname}}</span>
+        <from-now class="right from-now" [dateTime]="item.create_at"></from-now>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="正在获取...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -1,0 +1,58 @@
+<!--
+  Generated template for the ArticlePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{tabName}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <cnode-fetching *ngIf="isFetching | async"></cnode-fetching>
+  <ion-title>{{ (topic | async).title }}</ion-title>
+  <ion-thumbnail item-start>
+    <img src="{{(topic | async).author.avatar_url}}" class="user-icon">
+    <a class="user-name"> {{(topic | async).author.loginname}}</a>
+  </ion-thumbnail>
+  <from-now class="right from-now" [dateTime]="(topic | async).create_at"></from-now>
+  <div class="article-content" [innerHTML]="convertMark((topic | async).content)">
+
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let item of (topic | async).replies">
+      <!-- <ion-thumbnail item-start>
+        <cnode-user-icon imgUrl="item.author.avatar_url"></cnode-user-icon>
+      </ion-thumbnail> -->
+      <div>
+        <a href="javascript:;">{{ item.author.loginname}}</a>
+        <ion-icon ios="ios-thumbs-up right" md="md-thumbs-up" (click)="star(item)"></ion-icon>
+        <from-now [dateTime]="item.create_at" class="right"></from-now>
+      </div>
+
+      <div [innerHTML]="convertMark(item.content)">
+
+      </div>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <!-- <ion-input type="text" value=""></ion-input><button ion-button>Default</button> -->
+    <ion-list>
+
+      <ion-item>
+        <!-- <input type="" name="" value="" h> -->
+        <ion-label>回复</ion-label>
+        <ion-input type="text" value=""></ion-input>
+        <button ion-button>Default</button>
+      </ion-item>
+    </ion-list>
+  </ion-toolbar>
+</ion-footer>
