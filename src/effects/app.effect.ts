@@ -11,33 +11,29 @@ import { defer } from 'rxjs/observable/defer';
 import { of } from 'rxjs/observable/of';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-
-
 import { Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 import { Database } from '@ngrx/db';
 import { User } from '../models/user';
 import * as user from '../actions/user.action';
 
-import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
-
 
 @Injectable()
-export class UserEffects {
+export class AppEffect {
 
-    constructor(private actions$: Actions, private service: CnodeWebApiProvider, private db: Database) {
-
-    }
+    constructor(private actions$: Actions, private db: Database) { }
 
     @Effect()
-    userLogin$: Observable<Action> = this.actions$
-        .ofType(user.USER_LOGIN)
-        .map((action: user.UserLogin) => action.payload)
-        .mergeMap(accessToken =>
-            this.service.login(accessToken)
-                .mergeMap(u => this.db.insert('user', [u])
-                    .map(() => new user.UserLoginSuccess(u))
-                    .catch(e => of(new user.UserLoginFail(e)))
-                )
-        );
+    init$: Observable<Action> = defer(() => {
+        return this.db.query('user').map((u: User) => u).toArray()
+            .map((users: User[]) => {
+                const x = new user.UserLoginSuccess({
+                    id: '5816eed5b37ee8fb33978977',
+                    loginname: 'ycpaladin',
+                    avatar_url: 'https://avatars3.githubusercontent.com/u/3337028?v=4&s=120',
+                    accessToken: '62c2f14b-24e0-4a3e-bc34-a5c0baeab5e0'
+                });
+                return x;
+            });
+    });
 }

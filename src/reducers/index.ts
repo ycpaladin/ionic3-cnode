@@ -30,7 +30,8 @@ export const getTopicsIsFetching = createSelector(getTopicsState, fromTopics.get
 export const getTopicState = (state: State) => state.topic;
 export const getTopicIsFetching = createSelector(getTopicState, fromTopic.getTopicIsFetching);
 export const getTopic = createSelector(getTopicState, fromTopic.getTopic);
+export const getReplies = createSelector(getTopicState, fromTopic.getReplies);
 
 export const getUserState = (state: State) => state.user;
 export const getUser = createSelector(getUserState, fromUser.getUser);
-
+export const isLogin = createSelector(getUserState, fromUser.isLogin);

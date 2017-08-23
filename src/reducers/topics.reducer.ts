@@ -19,7 +19,7 @@ export interface State {
 
 export const initialState: State = {
     isFetching: false,
-    tabName: 'all',
+    tabName: 'dev',
     pageSize: 15,
     topics: {
         all: {

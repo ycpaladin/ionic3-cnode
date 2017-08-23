@@ -7,6 +7,7 @@ import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/mergeMap';
+
 // import { empty } from 'rxjs/observable/empty';
 // import { defer } from 'rxjs/observable/defer';
 import { of } from 'rxjs/observable/of';
@@ -41,8 +42,8 @@ export class TopicEffects {
     @Effect()
     loadTopicById$: Observable<Action> = this.actions$.ofType(t.LOAD)
         .map(toPayload)
-        .switchMap((id: string) => {
-            return this.service.getTopicById(id).map(topic => new t.LoadSuccessAction(topic))
+        .switchMap(({ topicId, accessToken }) => {
+            return this.service.getTopicById(topicId, accessToken).map(topic => new t.LoadSuccessAction(topic))
                 .catch(() => of(new t.LoadFailAction('')));
         });
 
@@ -50,13 +51,15 @@ export class TopicEffects {
     @Effect()
     upReply$: Observable<Action> = this.actions$.ofType(t.UPREPLEY).map((action: t.UpReplyAction) => action.payload)
         .mergeMap((payload) => {
-            return this.db.query('user')
-                .map((user: User) => user.accessToken)
-                .mergeMap(accessToken =>
-                    this.service.upReply(accessToken, payload.id)
-                        .map(r => new t.UpReplySuccessAction(r))
-                        .catch(e => of(new t.UpReplyFailAction(e)))
-                );
+
+            return this.service.upReply(payload.accessToken, payload.replyId)
+                .map(r => new t.UpReplySuccessAction(r))
+                .catch(e => of(new t.UpReplyFailAction(e)))
+            // return this.db.query('user')
+            //     .map((user: User) => user.accessToken)
+            //     .mergeMap(accessToken =>
+
+            //     );
             // return null;
         });
 }

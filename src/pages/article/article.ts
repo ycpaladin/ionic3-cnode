@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/observable';
-import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, ToastController } from 'ionic-angular';
 import marked from 'marked';
 import { Topic } from '../../models/topic';
-
+import { User } from '../../models/user';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers'
@@ -35,12 +35,27 @@ export class ArticlePage implements OnInit {
     tabName: string;
     isFetching: Observable<boolean>;
     topic: Observable<Topic>;
-    constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>, public actionSheetCtrl: ActionSheetController) {
-        const id = this.navParams.get('id');
-        this.tabName = tabs[this.navParams.get('tabName')];
+    isLogin: Observable<boolean>;
+    user: Observable<User>;
+    // replies: Observable<any[]>;
+    replyText: string;
+    constructor(public navCtrl: NavController,
+        public navParams: NavParams,
+        private store: Store<fromRoot.State>,
+        public actionSheetCtrl: ActionSheetController,
+        public toastCtrl: ToastController) {
+
+        const topicId = this.navParams.get('id') || '599d7facebaa046923a826db';
+        this.tabName = tabs[this.navParams.get('tabName')] || 'dev';
         this.isFetching = this.store.select(fromRoot.getTopicIsFetching);
         this.topic = this.store.select(fromRoot.getTopic);
-        this.store.dispatch(new topic.LoadAction(id));
+        this.isLogin = this.store.select(fromRoot.isLogin);
+        this.user = this.store.select(fromRoot.getUser);
+        // this.replies = this.store.select(fromRoot.getReplies);
+        this.user.subscribe(user => {
+            this.store.dispatch(new topic.LoadAction({ topicId, accessToken: user && user.accessToken }));
+        }).unsubscribe();
+
     }
 
     ionViewDidLoad() {
@@ -59,25 +74,43 @@ export class ArticlePage implements OnInit {
         // })
     }
 
-    star(item) {
-        // console.log(id);
-        const upText = item.is_uped ? '取消赞' : '赞';
-        let actionSheet = this.actionSheetCtrl.create({
-            title: `@${item.author.loginname}`,
-            buttons: [
-                {
-                    text: '回复',
-                    handler: () => {
-                        console.log('Destructive clicked');
+    openMenu(item) {
+
+        this.user.subscribe(user => {
+            const upText = item.is_uped ? '取消赞' : '赞';
+            let actionSheet = this.actionSheetCtrl.create({
+                title: `@${item.author.loginname}`,
+                buttons: [
+                    {
+                        text: '回复',
+                        handler: () => {
+
+                        }
+                    }, {
+                        text: upText,
+                        handler: () => {
+                            if (item.author.loginname !== user.loginname) {
+                                // 去点赞..
+                                this.store.dispatch(new topic.UpReplyAction({ replyId: item.id, accessToken: user.accessToken }));
+                            } else {
+                                // 不能自己给自己点赞
+                                let toast = this.toastCtrl.create({
+                                    message: '自己给自己点赞的行为是不允许的哦！',
+                                    duration: 3000,
+                                    position: 'bottom'
+                                });
+
+                                toast.present(toast);
+                            }
+                        }
                     }
-                }, {
-                    text: upText,
-                    handler: () => {
-                        console.log('Archive clicked');
-                    }
-                }
-            ]
-        });
-        actionSheet.present();
+                ]
+            });
+            actionSheet.present();
+
+
+        }).unsubscribe();
+
+
     }
 }

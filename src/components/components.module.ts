@@ -13,6 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 //@effect
 import { TopicEffects } from '../effects/topic.effect';
 import { UserEffects } from '../effects/user.effect';
+import { AppEffect } from '../effects/app.effect';
 
 import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
 import { FromNowComponent } from './from-now/from-now';
@@ -28,7 +29,7 @@ import { CnodeUserIconComponent } from './cnode-user-icon/cnode-user-icon';
         IonicModule,
         HttpModule,
         StoreModule.forRoot(reducer),
-        EffectsModule.forRoot([TopicEffects, UserEffects])
+        EffectsModule.forRoot([AppEffect, TopicEffects, UserEffects])
     ],
     exports: [CnodeItemComponent, CnodeListComponent,
         FromNowComponent,

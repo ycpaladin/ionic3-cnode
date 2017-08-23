@@ -46,6 +46,21 @@ export function reducer(state = initialState, action: topic.Actions): State {
                 isFetching: false,
                 topic: action.payload
             });
+        case topic.UPREPLEY_SUCCESS:
+            // 在此处理赞或者取消赞
+            // const replies = [...state.topic.replies];
+            const r = state.topic.replies.find(t => t.id === action.payload.replyId);
+            // const index = replies.findIndex(t => t.id === action.payload.replyId);
+            r.is_uped = action.payload.upType === 'up';
+
+            // const _state = Object.assign({}, state, {
+            //     topic: {
+            //         ...state.topic,
+            //         replies
+            //     }
+            // });
+            // return _state;
+            // return state;
         case topic.LOAD_FAIL:
         default:
             return state;
@@ -55,3 +70,5 @@ export function reducer(state = initialState, action: topic.Actions): State {
 
 export const getTopicIsFetching = (state: State) => state.isFetching;
 export const getTopic = (state: State) => state.topic;
+
+export const getReplies = (state: State) => state.topic.replies;

@@ -12,7 +12,7 @@ export const UPREPLEY_FAIL = '[Topic] Up Reply Reply';
 
 export class LoadAction implements Action {
     readonly type = LOAD;
-    constructor(public payload: string) { }
+    constructor(public payload: { topicId: string, accessToken: string }) { }
 }
 
 export class LoadSuccessAction implements Action {
@@ -27,12 +27,12 @@ export class LoadFailAction implements Action {
 
 export class UpReplyAction implements Action {
     readonly type = UPREPLEY;
-    constructor(public payload: { id: string, upAction: boolean }) { }
+    constructor(public payload: { replyId: string, accessToken }) { }
 }
 
 export class UpReplySuccessAction implements Action {
     readonly type = UPREPLEY_SUCCESS;
-    constructor(public payload: string) { }
+    constructor(public payload: { replyId: string, upType: string }) { }
 }
 
 export class UpReplyFailAction implements Action {

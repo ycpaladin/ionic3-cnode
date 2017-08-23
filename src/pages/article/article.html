@@ -25,13 +25,13 @@
 
   </div>
   <ion-list>
-    <ion-item *ngFor="let item of (topic | async).replies">
+    <ion-item *ngFor="let item of (topic | async).replies" (click)="openMenu(item)">
       <!-- <ion-thumbnail item-start>
         <cnode-user-icon imgUrl="item.author.avatar_url"></cnode-user-icon>
       </ion-thumbnail> -->
       <div>
         <a href="javascript:;">{{ item.author.loginname}}</a>
-        <ion-icon ios="ios-thumbs-up right" md="md-thumbs-up" (click)="star(item)"></ion-icon>
+        <ion-icon ios="ios-thumbs-up right" md="md-thumbs-up" *ngIf="(isLogin | async) "></ion-icon>{{ item.is_uped}}
         <from-now [dateTime]="item.create_at" class="right"></from-now>
       </div>
 
@@ -42,7 +42,7 @@
   </ion-list>
 
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="isLogin | async">
   <ion-toolbar>
     <!-- <ion-input type="text" value=""></ion-input><button ion-button>Default</button> -->
     <ion-list>
@@ -50,8 +50,8 @@
       <ion-item>
         <!-- <input type="" name="" value="" h> -->
         <ion-label>回复</ion-label>
-        <ion-input type="text" value=""></ion-input>
-        <button ion-button>Default</button>
+        <ion-input type="text" [(ngModel)]="replyText"></ion-input>
+        <button ion-button (click)="reply()">Default</button>
       </ion-item>
     </ion-list>
   </ion-toolbar>

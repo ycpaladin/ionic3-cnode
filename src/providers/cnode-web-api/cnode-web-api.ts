@@ -23,7 +23,7 @@ interface GetTopicResult {
 
 interface UpReplyResult {
     success: boolean;
-    data: string;
+    action: string;
 }
 
 interface LoginResult {
@@ -54,8 +54,8 @@ export class CnodeWebApiProvider {
             .map(d => d.data);
     }
 
-    getTopicById(id: string): Observable<Topic> {
-        return this.http.get(`${this.baseUrl}/topic/${id}?mdrender=false`)
+    getTopicById(id: string, accessToken: string = ''): Observable<Topic> {
+        return this.http.get(`${this.baseUrl}/topic/${id}?accesstoken=${accessToken}&mdrender=false`)
             .map(r => r.json() as GetTopicResult)
             .filter(t => t.success)
             .map(t => t.data);
@@ -69,11 +69,11 @@ export class CnodeWebApiProvider {
     }
 
 
-    upReply(accesstoken: string, replyId): Observable<string> {
+    upReply(accesstoken: string, replyId: string): Observable<{ replyId: string, upType: string }> {
         return this.http.post(`${this.baseUrl}/reply/${replyId}/ups`, { accesstoken })
             .map(r => r.json() as UpReplyResult)
             .filter(r => r.success)
-            .map(t => t.data);
+            .map(t => ({ replyId: replyId, upType: t.action }));
     }
 
 
