@@ -10,6 +10,15 @@ export const UPREPLEY = '[Topic] Up Reply';
 export const UPREPLEY_SUCCESS = '[Topic] Up Reply Success';
 export const UPREPLEY_FAIL = '[Topic] Up Reply Reply';
 
+
+export const COLLECT = '[Topic] Collect';
+export const COLLECT_SUCCESS = '[Topic] Collect Success';
+export const COLLECT_FAIL = '[Topic] Collect Fail'
+
+export const DECOLLECT = '[Topic] DeCollect';
+export const DECOLLECT_SUCCESS = '[Topic] DeCollect Success';
+export const DECOLLECT_FAIL = '[Topic] DeCollect Fail'
+
 export class LoadAction implements Action {
     readonly type = LOAD;
     constructor(public payload: { topicId: string, accessToken: string }) { }
@@ -40,5 +49,40 @@ export class UpReplyFailAction implements Action {
     constructor(public payload: any) { }
 }
 
+export class CollectAction implements Action {
+    readonly type = COLLECT;
+    constructor(public payload: { topic_id: string, accessToken: string }) { }
+}
 
-export type Actions = LoadAction | LoadSuccessAction | LoadFailAction | UpReplyAction | UpReplySuccessAction | UpReplyFailAction;
+export class CollectSuccessAction implements Action {
+    readonly type = COLLECT_SUCCESS;
+    constructor() { }
+}
+
+export class CollectFailAction implements Action {
+    readonly type = COLLECT_FAIL
+    constructor(public payload: string) { }
+}
+
+export class DeCollectAction implements Action {
+    readonly type = DECOLLECT;
+    constructor(public payload: { topic_id: string, accessToken: string }) { }
+}
+
+export class DeCollectSuccessAction implements Action {
+    readonly type = DECOLLECT_SUCCESS;
+    constructor() { }
+}
+
+export class DeCollectFailAction implements Action {
+    readonly type = DECOLLECT_FAIL
+    constructor(public payload: string) { }
+}
+
+
+
+export type Actions =
+    LoadAction | LoadSuccessAction | LoadFailAction |
+    UpReplyAction | UpReplySuccessAction | UpReplyFailAction |
+    CollectAction | CollectSuccessAction | CollectFailAction |
+    DeCollectAction | DeCollectSuccessAction | DeCollectFailAction;

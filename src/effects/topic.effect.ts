@@ -51,15 +51,34 @@ export class TopicEffects {
     @Effect()
     upReply$: Observable<Action> = this.actions$.ofType(t.UPREPLEY).map((action: t.UpReplyAction) => action.payload)
         .mergeMap((payload) => {
-
             return this.service.upReply(payload.accessToken, payload.replyId)
                 .map(r => new t.UpReplySuccessAction(r))
                 .catch(e => of(new t.UpReplyFailAction(e)))
-            // return this.db.query('user')
-            //     .map((user: User) => user.accessToken)
-            //     .mergeMap(accessToken =>
-
-            //     );
-            // return null;
         });
+
+
+    @Effect()
+    collect$: Observable<Action> = this.actions$
+        .ofType(t.COLLECT)
+        .map((action: t.CollectAction) => action.payload)
+        .mergeMap(({ accessToken, topic_id }) =>
+            this.service.collect(accessToken, topic_id)
+                .map(r => new t.CollectSuccessAction())
+                .catch(e => of(new t.CollectFailAction('收藏主题失败.')))
+        );
+
+    @Effect()
+    deCollect$: Observable<Action> = this.actions$
+        .ofType(t.DECOLLECT)
+        .map((action: t.DeCollectAction) => action.payload)
+        .mergeMap(({ accessToken, topic_id }) =>
+            this.service.deCollect(accessToken, topic_id)
+                .map(r => {
+                    return new t.DeCollectSuccessAction()
+                })
+                .catch(e => {
+
+                    return of(new t.DeCollectFailAction('取消收藏主题失败.'))
+                })
+        );
 }

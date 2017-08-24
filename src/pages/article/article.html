@@ -15,23 +15,31 @@
 
 <ion-content padding>
   <cnode-fetching *ngIf="isFetching | async"></cnode-fetching>
-  <ion-title>{{ (topic | async).title }}</ion-title>
-  <ion-thumbnail item-start>
-    <img src="{{(topic | async).author.avatar_url}}" class="user-icon">
-    <a class="user-name"> {{(topic | async).author.loginname}}</a>
-  </ion-thumbnail>
-  <from-now class="right from-now" [dateTime]="(topic | async).create_at"></from-now>
-  <div class="article-content" [innerHTML]="convertMark((topic | async).content)">
-
-  </div>
   <ion-list>
+    <ion-item>
+      <ion-title>{{ (topic | async).title }}</ion-title>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="{{(topic | async).author.avatar_url}}" class="user-icon">
+        <a class="user-name"> {{(topic | async).author.loginname}}</a>
+      </ion-thumbnail>
+      <ion-icon [name]="(topic | async).is_collect ? 'ios-star' : 'ios-star-outline'" (click)="collect()" *ngIf="isLogin | async"></ion-icon>
+      <from-now class="right from-now" [dateTime]="(topic | async).create_at"></from-now>
+
+    </ion-item>
+    <ion-item>
+      <div class="article-content" [innerHTML]="convertMark((topic | async).content)">
+
+      </div>
+    </ion-item>
     <ion-item *ngFor="let item of (topic | async).replies" (click)="openMenu(item)">
       <!-- <ion-thumbnail item-start>
         <cnode-user-icon imgUrl="item.author.avatar_url"></cnode-user-icon>
       </ion-thumbnail> -->
       <div>
         <a href="javascript:;">{{ item.author.loginname}}</a>
-        <ion-icon ios="ios-thumbs-up right" md="md-thumbs-up" *ngIf="(isLogin | async) "></ion-icon>{{ item.is_uped}}
+        <ion-icon [name]="item.is_uped ? 'ios-thumbs-up' : 'ios-thumbs-up-outline'"  *ngIf="(isLogin | async) "></ion-icon>
         <from-now [dateTime]="item.create_at" class="right"></from-now>
       </div>
 

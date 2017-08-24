@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/observable';
+import { zip } from 'rxjs/Observable/zip';
+
 import { IonicPage, NavController, NavParams, ActionSheetController, ToastController } from 'ionic-angular';
 import marked from 'marked';
 import { Topic } from '../../models/topic';
@@ -97,9 +99,8 @@ export class ArticlePage implements OnInit {
                                 let toast = this.toastCtrl.create({
                                     message: '自己给自己点赞的行为是不允许的哦！',
                                     duration: 3000,
-                                    position: 'bottom'
+                                    position: 'middle'
                                 });
-
                                 toast.present(toast);
                             }
                         }
@@ -107,10 +108,19 @@ export class ArticlePage implements OnInit {
                 ]
             });
             actionSheet.present();
-
-
         }).unsubscribe();
 
 
+    }
+
+
+    collect() {
+        zip(this.user, this.topic).subscribe(([user, t]) => {
+            if (t.is_collect === true) {
+                this.store.dispatch(new topic.DeCollectAction({ topic_id: t.id, accessToken: user.accessToken }))
+            } else {
+                this.store.dispatch(new topic.CollectAction({ topic_id: t.id, accessToken: user.accessToken }))
+            }
+        }).unsubscribe();
     }
 }
