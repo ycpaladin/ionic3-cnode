@@ -4,12 +4,14 @@ import * as topic from '../actions/topic.action';
 
 export interface State {
     isFetching: boolean;
+    message: string;
     topic: Topic
 }
 
 
 export const initialState: State = {
     isFetching: false,
+    message: '',
     topic: {
         id: '',
         author_id: '',
@@ -39,6 +41,7 @@ export function reducer(state = initialState, action: topic.Actions): State {
         case topic.LOAD:
             return Object.assign({}, state, {
                 isFetching: true,
+                message: ''
             })
         case topic.LOAD_SUCCESS:
             return Object.assign({}, state, {
@@ -54,6 +57,7 @@ export function reducer(state = initialState, action: topic.Actions): State {
         case topic.DECOLLECT_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
+                message: '',
                 topic: {
                     ...state.topic,
                     is_collect: !state.topic.is_collect
