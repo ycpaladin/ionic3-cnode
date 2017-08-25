@@ -1,4 +1,4 @@
-import { Topic } from '../models/topic';
+import { Topic, defaultTopic } from '../models/topic';
 
 import * as topic from '../actions/topic.action';
 
@@ -12,26 +12,7 @@ export interface State {
 export const initialState: State = {
     isFetching: false,
     message: '',
-    topic: {
-        id: '',
-        author_id: '',
-        tab: '',
-        content: '',
-        // 文章标题
-        title: '',
-        last_reply_at: new Date(),
-        good: false,
-        top: false,
-        reply_count: 0,
-        visit_count: 0,
-        create_at: new Date(),
-        author: {
-            loginname: '',
-            avatar_url: '',
-        },
-        replies: [],
-        is_collect: false
-    }
+    topic: defaultTopic
 }
 
 
@@ -41,6 +22,7 @@ export function reducer(state = initialState, action: topic.Actions): State {
         case topic.LOAD:
             return Object.assign({}, state, {
                 isFetching: true,
+                topic: defaultTopic,
                 message: ''
             })
         case topic.LOAD_SUCCESS:

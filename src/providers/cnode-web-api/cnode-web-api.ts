@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { Topic } from '../../models/topic';
 import { User } from '../../models/user';
+import { UserDetials } from '../../models/user-detials';
 // interface Result<T> {
 
 //     success: boolean;
@@ -32,6 +33,12 @@ interface LoginResult {
     loginname: string;
     id: string;
     avatar_url: string;
+}
+
+
+interface UserResult {
+    success: boolean;
+    data: UserDetials;
 }
 
 /*
@@ -104,4 +111,38 @@ export class CnodeWebApiProvider {
                 return of(false);
             });
     }
+
+
+    /**
+     * 新建评论
+     * @param accesstoken 用户的 accessToken
+     * @param topic_id 评论的主题ID
+     * @param content 评论的主体
+     * @param reply_id 如果这个评论是对另一个评论的回复，请务必带上此字段。这样前端就可以构建出评论线索图。
+     */
+    replies(accesstoken: string, topic_id: string, content: string, reply_id?: string): Observable<string> {
+        return this.http.post(`${this.baseUrl}/topic/${topic_id}/replies`, { accesstoken, content, reply_id })
+            .map(r => r.json())
+            .map(({ success: boolean, reply_id: string }) => reply_id)
+            .catch((e, caught) => {
+                console.log(e);
+                return of(e);
+            });
+    }
+
+    /**
+     * 用户详情
+     * @param loginname 用户登录名称
+     */
+    getUserInfo(loginname: string): Observable<UserDetials> {
+        return this.http.get(`${this.baseUrl}/user/${loginname}`)
+            .map(r => r.json() as UserResult)
+            .filter(r => r.success)
+            .map(r => r.data)
+            .catch((e, caught) => {
+                console.log(e);
+                return of(e);
+            });
+    }
 }
+

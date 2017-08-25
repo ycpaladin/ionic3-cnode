@@ -35,3 +35,24 @@ export interface Topic {
     is_collect: boolean
 
 }
+
+export const defaultTopic: Topic = {
+    id: '',
+    author_id: '',
+    tab: '',
+    content: '',
+    // 文章标题
+    title: '',
+    last_reply_at: new Date(),
+    good: false,
+    top: false,
+    reply_count: 0,
+    visit_count: 0,
+    create_at: new Date(),
+    author: {
+        loginname: '',
+        avatar_url: '',
+    },
+    replies: [],
+    is_collect: false
+}
