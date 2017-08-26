@@ -7,7 +7,7 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-    pet = 'all';
+    pet = 'dev';
     constructor(public navCtrl: NavController) {
 
     }

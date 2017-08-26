@@ -120,10 +120,10 @@ export class CnodeWebApiProvider {
      * @param content 评论的主体
      * @param reply_id 如果这个评论是对另一个评论的回复，请务必带上此字段。这样前端就可以构建出评论线索图。
      */
-    replies(accesstoken: string, topic_id: string, content: string, reply_id?: string): Observable<string> {
+    replies(accesstoken: string, topic_id: string, content: string, reply_id?: string): Observable<boolean> {
         return this.http.post(`${this.baseUrl}/topic/${topic_id}/replies`, { accesstoken, content, reply_id })
             .map(r => r.json())
-            .map(({ success: boolean, reply_id: string }) => reply_id)
+            .map(t => t.success as boolean)
             .catch((e, caught) => {
                 console.log(e);
                 return of(e);

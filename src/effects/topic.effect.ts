@@ -20,8 +20,8 @@ import { Database } from '@ngrx/db';
 import { User } from '../models/user';
 
 import * as topic from '../actions/topics.action';
-
 import * as t from '../actions/topic.action';
+import * as reply from '../actions/reply.action';
 
 import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
 
@@ -81,4 +81,16 @@ export class TopicEffects {
                     return of(new t.DeCollectFailAction('取消收藏主题失败.'))
                 })
         );
+
+
+    @Effect()
+    reply$: Observable<Action> = this.actions$
+        .ofType(reply.REPLY)
+        .map((action: reply.ReplyAction) => action.payload)
+        .mergeMap(({ accessToken, topicId, content, replyId }) =>
+            this.service.replies(accessToken, topicId, content, replyId).filter(r => r)
+                .map(r => new t.LoadAction({ accessToken, topicId }))
+                .catch(e => of(new reply.ReplyFailAction(e)))
+        );
+
 }

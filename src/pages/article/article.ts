@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/observable';
 import { zip } from 'rxjs/Observable/zip';
 
@@ -32,15 +32,15 @@ const tabs = {
     selector: 'page-article',
     templateUrl: 'article.html',
 })
-export class ArticlePage implements OnInit {
+export class ArticlePage implements OnInit, OnChanges {
+
 
     tabName: string;
+    replyItem: any;
     isFetching: Observable<boolean>;
     topic: Observable<Topic>;
     isLogin: Observable<boolean>;
     user: Observable<User>;
-    // replies: Observable<any[]>;
-    replyText: string;
     constructor(public navCtrl: NavController,
         public navParams: NavParams,
         private store: Store<fromRoot.State>,
@@ -48,7 +48,7 @@ export class ArticlePage implements OnInit {
         public toastCtrl: ToastController) {
 
         const topicId = this.navParams.get('id') || '599d7facebaa046923a826db';
-        this.tabName = tabs[this.navParams.get('tabName')] || 'dev';
+        this.tabName = tabs[this.navParams.get('tabName') || 'dev'];
         this.isFetching = this.store.select(fromRoot.getTopicIsFetching);
         this.topic = this.store.select(fromRoot.getTopic);
         this.isLogin = this.store.select(fromRoot.isLogin);
@@ -76,6 +76,11 @@ export class ArticlePage implements OnInit {
         // })
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        this.replyItem = undefined;
+    }
+
+
     openMenu(item) {
 
         this.user.subscribe(user => {
@@ -86,7 +91,7 @@ export class ArticlePage implements OnInit {
                     {
                         text: '回复',
                         handler: () => {
-
+                            this.replyItem = item;
                         }
                     }, {
                         text: upText,
@@ -123,4 +128,6 @@ export class ArticlePage implements OnInit {
             }
         }).unsubscribe();
     }
+
+
 }
