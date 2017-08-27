@@ -20,13 +20,15 @@ import { FromNowComponent } from './from-now/from-now';
 import { CnodeFetchingComponent } from './cnode-fetching/cnode-fetching';
 import { CnodeUserIconComponent } from './cnode-user-icon/cnode-user-icon';
 import { CnodeReplyComponent } from './cnode-reply/cnode-reply';
+import { CnodeReplyListComponent } from './cnode-reply-list/cnode-reply-list';
 
 @NgModule({
     declarations: [CnodeItemComponent, CnodeListComponent,
         FromNowComponent,
         CnodeFetchingComponent,
         CnodeUserIconComponent,
-    CnodeReplyComponent],
+    CnodeReplyComponent,
+    CnodeReplyListComponent],
     imports: [
         IonicModule,
         HttpModule,
@@ -37,7 +39,8 @@ import { CnodeReplyComponent } from './cnode-reply/cnode-reply';
         FromNowComponent,
         CnodeFetchingComponent,
         CnodeUserIconComponent,
-    CnodeReplyComponent],
+    CnodeReplyComponent,
+    CnodeReplyListComponent],
     providers: [CnodeWebApiProvider]
 })
 export class ComponentsModule { }

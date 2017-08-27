@@ -1,6 +1,7 @@
 import { Topic, defaultTopic } from '../models/topic';
 
 import * as topic from '../actions/topic.action';
+import * as reply from '../actions/reply.action';
 
 export interface State {
     isFetching: boolean;
@@ -16,9 +17,21 @@ export const initialState: State = {
 }
 
 
-export function reducer(state = initialState, action: topic.Actions): State {
+export function reducer(state = initialState, action: topic.Actions | reply.Actions): State {
 
     switch (action.type) {
+        case reply.REPLY_SUCCESS:
+
+            return Object.assign({}, state, {
+                isFetching: false,
+                message: '',
+                topic: {
+                    ...state.topic,
+                    replies: [
+                        ...action.payload.replies
+                    ]
+                }
+            })
         case topic.LOAD:
             return Object.assign({}, state, {
                 isFetching: true,

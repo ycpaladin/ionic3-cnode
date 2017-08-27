@@ -20,20 +20,23 @@ export interface Topic {
         loginname: string;
         avatar_url: string;
     },
-    replies: {
-        id: string;
-        author: {
-            loginname: string;
-            avatar_url: string;
-        },
-        content: string,
-        ups: any[],
-        create_at: Date;
-        reply_id: string;
-        is_uped: boolean;
-    }[],
+    replies: Reply[],
     is_collect: boolean
 
+}
+
+
+export interface Reply {
+    id: string;
+    author: {
+        loginname: string;
+        avatar_url: string;
+    },
+    content: string,
+    ups: any[],
+    create_at: Date;
+    reply_id: string;
+    is_uped: boolean;
 }
 
 export const defaultTopic: Topic = {

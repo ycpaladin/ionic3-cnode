@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-
+import { Topic } from '../models/topic';
 
 export const REPLY = '[Topic] Reply';
 export const REPLY_SUCCESS = '[Topic] Reply Success';
@@ -14,7 +14,7 @@ export class ReplyAction implements Action {
 
 export class ReplySuccessAction implements Action {
     readonly type = REPLY_SUCCESS;
-    constructor(public payload: {}) { }
+    constructor(public payload: Topic) { }
 }
 
 export class ReplyFailAction implements Action {

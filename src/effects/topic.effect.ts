@@ -89,7 +89,9 @@ export class TopicEffects {
         .map((action: reply.ReplyAction) => action.payload)
         .mergeMap(({ accessToken, topicId, content, replyId }) =>
             this.service.replies(accessToken, topicId, content, replyId).filter(r => r)
-                .map(r => new t.LoadAction({ accessToken, topicId }))
+                .mergeMap(r =>
+                    this.service.getTopicById(topicId, accessToken).map(t => new reply.ReplySuccessAction(t))
+                )
                 .catch(e => of(new reply.ReplyFailAction(e)))
         );
 

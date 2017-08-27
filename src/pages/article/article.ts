@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/observable';
 import { zip } from 'rxjs/Observable/zip';
 
-import { IonicPage, NavController, NavParams, ActionSheetController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import marked from 'marked';
 import { Topic } from '../../models/topic';
 import { User } from '../../models/user';
@@ -36,16 +36,11 @@ export class ArticlePage implements OnInit, OnChanges {
 
 
     tabName: string;
-    replyItem: any;
     isFetching: Observable<boolean>;
     topic: Observable<Topic>;
     isLogin: Observable<boolean>;
     user: Observable<User>;
-    constructor(public navCtrl: NavController,
-        public navParams: NavParams,
-        private store: Store<fromRoot.State>,
-        public actionSheetCtrl: ActionSheetController,
-        public toastCtrl: ToastController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>) {
 
         const topicId = this.navParams.get('id') || '599d7facebaa046923a826db';
         this.tabName = tabs[this.navParams.get('tabName') || 'dev'];
@@ -69,54 +64,12 @@ export class ArticlePage implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-
-        // this.store.select(fromRoot.getTopic).subscribe(topic => {
-
-        //     console.log(topic);
-        // })
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.replyItem = undefined;
+        // this.replyItem = undefined;
     }
 
-
-    openMenu(item) {
-
-        this.user.subscribe(user => {
-            const upText = item.is_uped ? '取消赞' : '赞';
-            let actionSheet = this.actionSheetCtrl.create({
-                title: `@${item.author.loginname}`,
-                buttons: [
-                    {
-                        text: '回复',
-                        handler: () => {
-                            this.replyItem = item;
-                        }
-                    }, {
-                        text: upText,
-                        handler: () => {
-                            if (item.author.loginname !== user.loginname) {
-                                // 去点赞..
-                                this.store.dispatch(new topic.UpReplyAction({ replyId: item.id, accessToken: user.accessToken }));
-                            } else {
-                                // 不能自己给自己点赞
-                                let toast = this.toastCtrl.create({
-                                    message: '自己给自己点赞的行为是不允许的哦！',
-                                    duration: 3000,
-                                    position: 'middle'
-                                });
-                                toast.present(toast);
-                            }
-                        }
-                    }
-                ]
-            });
-            actionSheet.present();
-        }).unsubscribe();
-
-
-    }
 
 
     collect() {

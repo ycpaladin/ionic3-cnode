@@ -33,20 +33,7 @@
 
       </div>
     </ion-item>
-    <ion-item *ngFor="let item of (topic | async).replies" (click)="openMenu(item)">
-      <!-- <ion-thumbnail item-start>
-        <cnode-user-icon imgUrl="item.author.avatar_url"></cnode-user-icon>
-      </ion-thumbnail> -->
-      <div>
-        <a href="javascript:;">{{ item.author.loginname}}</a>
-        <ion-icon [name]="item.is_uped ? 'ios-thumbs-up' : 'ios-thumbs-up-outline'" *ngIf="(isLogin | async) "></ion-icon>
-        <from-now [dateTime]="item.create_at" class="right"></from-now>
-      </div>
-
-      <div [innerHTML]="convertMark(item.content)">
-
-      </div>
-    </ion-item>
+    <cnode-reply-list></cnode-reply-list>
   </ion-list>
 
 </ion-content>
