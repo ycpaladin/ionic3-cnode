@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { of } from 'rxjs/observable/of';
 
@@ -39,6 +39,12 @@ interface LoginResult {
 interface UserResult {
     success: boolean;
     data: UserDetials;
+}
+
+export interface ReplyResult {
+    success: boolean;
+    reply_id: string;
+    error_msg: string
 }
 
 /*
@@ -120,14 +126,11 @@ export class CnodeWebApiProvider {
      * @param content 评论的主体
      * @param reply_id 如果这个评论是对另一个评论的回复，请务必带上此字段。这样前端就可以构建出评论线索图。
      */
-    replies(accesstoken: string, topic_id: string, content: string, reply_id?: string): Observable<boolean> {
+    replies(accesstoken: string, topic_id: string, content: string, reply_id?: string): Observable<ReplyResult> {
         return this.http.post(`${this.baseUrl}/topic/${topic_id}/replies`, { accesstoken, content, reply_id })
-            .map(r => r.json())
-            .map(t => t.success as boolean)
-            .catch((e, caught) => {
-                console.log(e);
-                return of(e);
-            });
+            .map(r => r.json() as ReplyResult)
+            // .map(t => t.success as boolean)
+            // .catch((response: Response) => of(response.json() as ReplyResult));
     }
 
     /**

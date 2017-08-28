@@ -3,8 +3,18 @@ import { Topic, defaultTopic } from '../models/topic';
 import * as topic from '../actions/topic.action';
 import * as reply from '../actions/reply.action';
 
+/**
+ * 主题状态
+ */
 export interface State {
+    /**
+     * 是否正在请求
+     */
     isFetching: boolean;
+    collectError: false,
+    replyError: false,
+    upError: false,
+    getTopicError: boolean,
     message: string;
     topic: Topic
 }
@@ -12,6 +22,10 @@ export interface State {
 
 export const initialState: State = {
     isFetching: false,
+    collectError: false,
+    replyError: false,
+    upError: false,
+    getTopicError: false,
     message: '',
     topic: defaultTopic
 }
@@ -21,9 +35,9 @@ export function reducer(state = initialState, action: topic.Actions | reply.Acti
 
     switch (action.type) {
         case reply.REPLY_SUCCESS:
-
             return Object.assign({}, state, {
                 isFetching: false,
+                replyError: false,
                 message: '',
                 topic: {
                     ...state.topic,
@@ -31,16 +45,24 @@ export function reducer(state = initialState, action: topic.Actions | reply.Acti
                         ...action.payload.replies
                     ]
                 }
-            })
+            });
+        case reply.REPLY_FAIL:
+            return Object.assign({}, state, {
+                isFetching: false,
+                replyError: true,
+                message: action.payload
+            });
         case topic.LOAD:
             return Object.assign({}, state, {
                 isFetching: true,
+                getTopicError: false,
                 topic: defaultTopic,
                 message: ''
             })
         case topic.LOAD_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
+                getTopicError: false,
                 topic: action.payload
             });
         case topic.UPREPLEY_SUCCESS:
@@ -52,6 +74,7 @@ export function reducer(state = initialState, action: topic.Actions | reply.Acti
         case topic.DECOLLECT_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
+                error: false,
                 message: '',
                 topic: {
                     ...state.topic,
@@ -73,3 +96,4 @@ export const getTopicIsFetching = (state: State) => state.isFetching;
 export const getTopic = (state: State) => state.topic;
 
 export const getReplies = (state: State) => state.topic.replies;
+export const getReplyError = (state:State) => state.replyError;

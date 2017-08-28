@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
-import 'rxjs/add/operator/takeUntil';
+// import 'rxjs/add/operator/flatMap';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/mergeMap';
 
@@ -88,11 +88,13 @@ export class TopicEffects {
         .ofType(reply.REPLY)
         .map((action: reply.ReplyAction) => action.payload)
         .mergeMap(({ accessToken, topicId, content, replyId }) =>
-            this.service.replies(accessToken, topicId, content, replyId).filter(r => r)
-                .mergeMap(r =>
-                    this.service.getTopicById(topicId, accessToken).map(t => new reply.ReplySuccessAction(t))
-                )
-                .catch(e => of(new reply.ReplyFailAction(e)))
+            this.service.replies(accessToken, topicId, content, replyId)
+                .filter(r => r.success)
+                .mergeMap(() => this.service.getTopicById(topicId, accessToken).map(t => new reply.ReplySuccessAction(t)))
+                .catch(e => {
+                    const { error_msg } = e.json();
+                    return of(new reply.ReplyFailAction(error_msg));
+                })
         );
 
 }

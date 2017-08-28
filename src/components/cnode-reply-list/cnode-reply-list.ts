@@ -66,8 +66,6 @@ export class CnodeReplyListComponent {
             });
             actionSheet.present();
         }).unsubscribe();
-
-
     }
 
     convertMark(content) {

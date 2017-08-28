@@ -19,7 +19,7 @@ export class ReplySuccessAction implements Action {
 
 export class ReplyFailAction implements Action {
     readonly type = REPLY_FAIL;
-    constructor(public payload: any) {
+    constructor(public payload: string) {
 
     }
 }
