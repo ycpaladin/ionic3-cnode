@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 
 //@ngrx
 import { StoreModule } from '@ngrx/store';
-import { appReducer, reducer } from '../reducers/index';
+import { reducer } from '../reducers/index';
 import { EffectsModule } from '@ngrx/effects';
 
 //@effect
@@ -33,9 +33,7 @@ import { CnodeMineIconComponent } from './cnode-mine-icon/cnode-mine-icon';
     imports: [
         IonicModule,
         HttpModule,
-        // StoreModule.forFeature()
-        // StoreModule.p
-        StoreModule.forRoot(appReducer(reducer, { type: '' })),
+        StoreModule.forRoot(reducer),
         EffectsModule.forRoot([AppEffect, TopicEffects, UserEffects])
     ],
     exports: [CnodeTopicListComponent,
