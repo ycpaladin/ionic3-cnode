@@ -33,13 +33,13 @@
 
       </div>
     </ion-item>
-    <cnode-reply-list></cnode-reply-list>
+    <cnode-reply-list (onError)="onError($event)"></cnode-reply-list>
   </ion-list>
 
 </ion-content>
 <ion-footer *ngIf="isLogin | async">
   <ion-toolbar>
     <!-- <ion-input type="text" value=""></ion-input><button ion-button>Default</button> -->
-    <cnode-reply [topicId]="(topic | async).id" [replyItem]="replyItem"></cnode-reply>
+    <cnode-reply [topicId]="(topic | async).id" [replyItem]="replyItem" (onError)="onError($event)"></cnode-reply>
   </ion-toolbar>
 </ion-footer>

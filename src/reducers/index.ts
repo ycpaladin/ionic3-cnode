@@ -1,4 +1,4 @@
-import { compose, combineReducers, ActionReducerMap } from '@ngrx/store';
+import { compose, combineReducers, ActionReducerMap, ActionReducer } from '@ngrx/store';
 import { createSelector } from 'reselect';
 import * as fromTopics from './topics.reducer';
 import * as fromTopic from './topic.reducer';
@@ -10,6 +10,16 @@ export interface State {
     user: fromUser.State,
 }
 
+export function createReducer(asyncReducers = {}): ActionReducer<any> {
+    return combineReducers(Object.assign({
+        topics: fromTopics.reducer,
+        topic: fromTopic.reducer,
+        user: fromUser.reducer,
+        // any other reducers you always want to be available
+    }, asyncReducers));
+}
+
+export const appReducer = createReducer();
 
 export const reducer: ActionReducerMap<State> = {
     topics: fromTopics.reducer,
@@ -32,6 +42,7 @@ export const getTopicIsFetching = createSelector(getTopicState, fromTopic.getTop
 export const getTopic = createSelector(getTopicState, fromTopic.getTopic);
 export const getReplies = createSelector(getTopicState, fromTopic.getReplies);
 export const getReplyError = createSelector(getTopicState, fromTopic.getReplyError);
+export const getTopicMessage = createSelector(getTopicState, fromTopic.getTopicMessage);
 
 export const getUserState = (state: State) => state.user;
 export const getUser = createSelector(getUserState, fromUser.getUser);

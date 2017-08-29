@@ -19,13 +19,15 @@ const initialState: State = {
 
 
 export const reducer = function (state: State = initialState, action: user.Actions | app.Actions): State {
-
     switch (action.type) {
         case app.APP_INIT:
+            console.log('===>', app.APP_INIT);
             if (action.payload != undefined && action.payload != null) {
                 return Object.assign({}, state, {
                     user: action.payload
                 });
+            } else {
+                return state;
             }
         case user.USER_LOGIN:
             return Object.assign({}, state, { isFetching: true });

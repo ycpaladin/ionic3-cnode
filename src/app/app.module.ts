@@ -5,8 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
+// import { MinePage } from '../pages/mine/mine';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -24,8 +23,7 @@ import { ComponentsModule } from '../components/components.module';
 @NgModule({
     declarations: [
         MyApp,
-        AboutPage,
-        ContactPage,
+        // MinePage,
         HomePage,
         TabsPage,
         // CnodeListComponent
@@ -43,8 +41,7 @@ import { ComponentsModule } from '../components/components.module';
     bootstrap: [IonicApp],
     entryComponents: [
         MyApp,
-        AboutPage,
-        ContactPage,
+        // MinePage,
         HomePage,
         TabsPage
     ],

@@ -1,8 +1,9 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/observable';
+import { Subscription } from 'rxjs/Subscription'
 import { zip } from 'rxjs/Observable/zip';
 
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import marked from 'marked';
 import { Topic } from '../../models/topic';
 import { User } from '../../models/user';
@@ -32,7 +33,8 @@ const tabs = {
     selector: 'page-article',
     templateUrl: 'article.html',
 })
-export class ArticlePage implements OnInit, OnChanges {
+export class ArticlePage implements OnInit, OnChanges, OnDestroy {
+
 
 
     tabName: string;
@@ -40,7 +42,8 @@ export class ArticlePage implements OnInit, OnChanges {
     topic: Observable<Topic>;
     isLogin: Observable<boolean>;
     user: Observable<User>;
-    constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>) {
+    message: Subscription;
+    constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>, public toastCtrl: ToastController) {
 
         const topicId = this.navParams.get('id') || '599d7facebaa046923a826db';
         this.tabName = tabs[this.navParams.get('tabName') || 'dev'];
@@ -48,6 +51,11 @@ export class ArticlePage implements OnInit, OnChanges {
         this.topic = this.store.select(fromRoot.getTopic);
         this.isLogin = this.store.select(fromRoot.isLogin);
         this.user = this.store.select(fromRoot.getUser);
+        this.message = this.store.select(fromRoot.getTopicMessage)
+            .filter(message => message !== null && message !== undefined && message != '')
+            .subscribe(message => {
+                this.onError(message);
+            });
         // this.replies = this.store.select(fromRoot.getReplies);
         this.user.subscribe(user => {
             this.store.dispatch(new topic.LoadAction({ topicId, accessToken: user && user.accessToken }));
@@ -64,10 +72,16 @@ export class ArticlePage implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
+        // this.
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         // this.replyItem = undefined;
+    }
+
+
+    ngOnDestroy(): void {
+        this.message.unsubscribe();
     }
 
 
@@ -82,5 +96,12 @@ export class ArticlePage implements OnInit, OnChanges {
         }).unsubscribe();
     }
 
-
+    onError(message: string) {
+        const toast = this.toastCtrl.create({
+            message,
+            duration: 3000,
+            position: 'middle'
+        });
+        toast.present(toast);
+    }
 }

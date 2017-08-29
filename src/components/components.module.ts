@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 
-import { CnodeItemComponent } from './cnode-item/cnode-item';
-import { CnodeListComponent } from './cnode-list/cnode-list';
+import { CnodeTopicListComponent } from './cnode-topic-list/cnode-topic-list';
 import { HttpModule } from '@angular/http';
 
 //@ngrx
 import { StoreModule } from '@ngrx/store';
-import { reducer } from '../reducers/index';
+import { appReducer, reducer } from '../reducers/index';
 import { EffectsModule } from '@ngrx/effects';
 
 //@effect
@@ -21,26 +20,31 @@ import { CnodeFetchingComponent } from './cnode-fetching/cnode-fetching';
 import { CnodeUserIconComponent } from './cnode-user-icon/cnode-user-icon';
 import { CnodeReplyComponent } from './cnode-reply/cnode-reply';
 import { CnodeReplyListComponent } from './cnode-reply-list/cnode-reply-list';
+import { CnodeMineIconComponent } from './cnode-mine-icon/cnode-mine-icon';
 
 @NgModule({
-    declarations: [CnodeItemComponent, CnodeListComponent,
+    declarations: [CnodeTopicListComponent,
         FromNowComponent,
         CnodeFetchingComponent,
         CnodeUserIconComponent,
-    CnodeReplyComponent,
-    CnodeReplyListComponent],
+        CnodeReplyComponent,
+        CnodeReplyListComponent,
+        CnodeMineIconComponent],
     imports: [
         IonicModule,
         HttpModule,
-        StoreModule.forRoot(reducer),
+        // StoreModule.forFeature()
+        // StoreModule.p
+        StoreModule.forRoot(appReducer(reducer, { type: '' })),
         EffectsModule.forRoot([AppEffect, TopicEffects, UserEffects])
     ],
-    exports: [CnodeItemComponent, CnodeListComponent,
+    exports: [CnodeTopicListComponent,
         FromNowComponent,
         CnodeFetchingComponent,
         CnodeUserIconComponent,
-    CnodeReplyComponent,
-    CnodeReplyListComponent],
+        CnodeReplyComponent,
+        CnodeReplyListComponent,
+        CnodeMineIconComponent],
     providers: [CnodeWebApiProvider]
 })
 export class ComponentsModule { }

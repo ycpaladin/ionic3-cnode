@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter, } from '@angular/core';
 import { ActionSheetController, ToastController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/observable';
@@ -27,6 +27,9 @@ export class CnodeReplyListComponent {
     user: Observable<User>;
     isLogin: Observable<boolean>;
     replyItem: Reply;
+
+    @Output() onError = new EventEmitter<string>(true);
+
     constructor(private store: Store<fromRoot.State>, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController) {
         this.replies = this.store.select(fromRoot.getReplies);
         this.user = this.store.select(fromRoot.getUser);
@@ -53,12 +56,7 @@ export class CnodeReplyListComponent {
                                 this.store.dispatch(new topic.UpReplyAction({ replyId: item.id, accessToken: user.accessToken }));
                             } else {
                                 // 不能自己给自己点赞
-                                let toast = this.toastCtrl.create({
-                                    message: '自己给自己点赞的行为是不允许的哦！',
-                                    duration: 3000,
-                                    position: 'middle'
-                                });
-                                toast.present(toast);
+                                this.onError.emit('自己给自己点赞的行为是不允许的哦！');
                             }
                         }
                     }

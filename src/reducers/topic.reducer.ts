@@ -34,6 +34,12 @@ export const initialState: State = {
 export function reducer(state = initialState, action: topic.Actions | reply.Actions): State {
 
     switch (action.type) {
+        case reply.REPLY:
+            return Object.assign({}, state, {
+                isFetching: false,
+                replyError: false,
+                message: '',
+            });
         case reply.REPLY_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
@@ -96,4 +102,5 @@ export const getTopicIsFetching = (state: State) => state.isFetching;
 export const getTopic = (state: State) => state.topic;
 
 export const getReplies = (state: State) => state.topic.replies;
-export const getReplyError = (state:State) => state.replyError;
+export const getReplyError = (state: State) => state.replyError;
+export const getTopicMessage = (state: State) => state.message;

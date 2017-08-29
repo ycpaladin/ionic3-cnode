@@ -15,7 +15,7 @@ import { Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 import { Database } from '@ngrx/db';
 import { User } from '../models/user';
-import * as user from '../actions/user.action';
+import * as app from '../actions/app.action';
 
 
 @Injectable()
@@ -27,7 +27,7 @@ export class AppEffect {
     init$: Observable<Action> = defer(() => {
         return this.db.query('user').map((u: User) => u).toArray()
             .map((users: User[]) => {
-                const x = new user.UserLoginSuccess({
+                const x = new app.AppInitialAction({
                     id: '5816eed5b37ee8fb33978977',
                     loginname: 'ycpaladin',
                     avatar_url: 'https://avatars3.githubusercontent.com/u/3337028?v=4&s=120',

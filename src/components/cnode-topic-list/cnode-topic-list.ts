@@ -15,10 +15,10 @@ import * as topic from '../../actions/topics.action';
  * for more info on Angular Components.
  */
 @Component({
-    selector: 'cnode-list',
-    templateUrl: 'cnode-list.html'
+    selector: 'cnode-topic-list',
+    templateUrl: 'cnode-topic-list.html'
 })
-export class CnodeListComponent implements OnChanges {
+export class CnodeTopicListComponent implements OnChanges {
 
 
 
