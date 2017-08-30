@@ -23,18 +23,7 @@ import * as app from '../actions/app.action';
 @Injectable()
 export class AppEffect {
 
-    constructor(private actions$: Actions, private store: Store<fromRoot.State>, private db: Database) {
-        // this.store.
-    }
-
-    // @Effect()
-    // init$: Observable<Action> = this.actions$
-    //     .ofType('app.APP_INIT')
-    //     .startWith(new app.AppInitialAction());
-    @Effect() init$: Observable<Action> = defer(() => {
-        return of(new app.AppInitialAction());
-    });
-
+    constructor(private actions$: Actions, private store: Store<fromRoot.State>, private db: Database) {}
 
     @Effect()
     init$$: Observable<Action> = this.actions$.ofType(app.APP_INIT)
@@ -49,6 +38,11 @@ export class AppEffect {
                     });
                     return x;
                 }));
+
+    @Effect() init$ = defer(() => {
+        return of(new app.AppInitialAction());
+        // this.store.dispatch(new app.AppInitialAction());
+    });
 
     // defer(() => {
     //     return this.db.query('user').map((u: User) => u).toArray()
