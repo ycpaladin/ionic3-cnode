@@ -5,6 +5,7 @@ import * as app from '../actions/app.action';
 
 export interface State {
     isFetching: boolean;
+    checked: boolean;
     error: boolean;
     message: string;
     user: User;
@@ -12,6 +13,7 @@ export interface State {
 
 const initialState: State = {
     isFetching: false,
+    checked: false,
     error: false,
     message: undefined,
     user: undefined
@@ -19,11 +21,13 @@ const initialState: State = {
 
 
 export const reducer = function (state: State = initialState, action: user.Actions | app.Actions): State {
+    console.log('user reducer ===>', action.type, state);
     switch (action.type) {
-        case app.APP_INIT:
-            console.log('===>', app.APP_INIT);
+        case app.APP_INIT_SUCCESS:
+
             if (action.payload != undefined && action.payload != null) {
                 return Object.assign({}, state, {
+                    checked: true,
                     user: action.payload
                 });
             } else {
@@ -49,3 +53,4 @@ export const getError = (state: State) => state.error;
 export const getIsFetching = (state: State) => state.isFetching;
 export const getErrorMsg = (state: State) => state.message;
 export const isLogin = (state: State) => state.user !== undefined && state.user !== null;
+export const checkedUser = (state: State) => state.checked;

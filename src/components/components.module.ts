@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 
 //@ngrx
 import { StoreModule } from '@ngrx/store';
-import { reducer } from '../reducers/index';
+import { reducer, appReducer } from '../reducers/index';
 import { EffectsModule } from '@ngrx/effects';
 
 //@effect
@@ -22,6 +22,8 @@ import { CnodeReplyComponent } from './cnode-reply/cnode-reply';
 import { CnodeReplyListComponent } from './cnode-reply-list/cnode-reply-list';
 import { CnodeMineIconComponent } from './cnode-mine-icon/cnode-mine-icon';
 
+import { APP_INIT } from '../actions/app.action';
+
 @NgModule({
     declarations: [CnodeTopicListComponent,
         FromNowComponent,
@@ -34,6 +36,7 @@ import { CnodeMineIconComponent } from './cnode-mine-icon/cnode-mine-icon';
         IonicModule,
         HttpModule,
         StoreModule.forRoot(reducer),
+        // StoreModule.forRoot(appReducer(reducer, { type: APP_INIT })),
         EffectsModule.forRoot([AppEffect, TopicEffects, UserEffects])
     ],
     exports: [CnodeTopicListComponent,

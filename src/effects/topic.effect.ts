@@ -4,30 +4,34 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
-// import 'rxjs/add/operator/flatMap';
+import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/mergeMap';
 
-// import { empty } from 'rxjs/observable/empty';
-// import { defer } from 'rxjs/observable/defer';
 import { of } from 'rxjs/observable/of';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, ObservableInput } from 'rxjs/Observable';
 
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
-import { Database } from '@ngrx/db';
 import { User } from '../models/user';
 
 import * as topic from '../actions/topics.action';
 import * as t from '../actions/topic.action';
 import * as reply from '../actions/reply.action';
 
+import * as fromRoot from '../reducers'
+import * as app from '../actions/app.action';
+
 import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
+import { CnodeUserProvider} from '../providers/cnode-user/cnode-user';
 
 @Injectable()
 export class TopicEffects {
-    constructor(private actions$: Actions, private service: CnodeWebApiProvider, private db: Database) { }
+    constructor(private actions$: Actions,
+         private store$: Store<fromRoot.State>, 
+         private service: CnodeWebApiProvider,
+          private user: CnodeUserProvider) { }
 
     @Effect()
     loadTopics$: Observable<Action> = this.actions$
@@ -41,11 +45,40 @@ export class TopicEffects {
 
     @Effect()
     loadTopicById$: Observable<Action> = this.actions$.ofType(t.LOAD)
-        .map(toPayload)
-        .switchMap(({ topicId, accessToken }) => {
-            return this.service.getTopicById(topicId, accessToken).map(topic => new t.LoadSuccessAction(topic))
-                .catch(() => of(new t.LoadFailAction('')));
+        .map((action: t.LoadAction) => action.payload)
+        // .withLatestFrom(this.store$.select(fromRoot.getUser))
+        .mergeMap(({ topicId, accessToken}) => {
+            // ObservableInput()
+            // return [
+            // if (user === undefined) {
+            //     // const localUser = this.user.getLocalUser().
+            // }
+
+            return this.service.getTopicById(topicId, accessToken).map(topic => 
+
+                new t.LoadSuccessAction(topic)
+            ).catch(() => of(new t.LoadFailAction('')));
+            // ];
+            // return this.service.getTopicById(topicId, user.accessToken).map(topic => [])
+            //     .catch(() => of(new t.LoadFailAction('')));
         });
+    // .switchMap(({ topicId, accessToken }) => {
+    //     return this.service.getTopicById(topicId, accessToken).map(topic => new t.LoadSuccessAction(topic))
+    //         .catch(() => of(new t.LoadFailAction('')));
+    // });
+
+    // .startWith(new app.AppInitialAction())
+    // .map((action: t.LoadAction) => {
+
+    //     return action.payload;
+    // })
+    // .switchMap((d) => {
+    //     const { topicId, accessToken } = d;
+    //     return this.service.getTopicById(topicId, accessToken).map(topic => new t.LoadSuccessAction(topic))
+    //         .catch(() => of(new t.LoadFailAction('')));
+    // });
+
+
 
 
     @Effect()

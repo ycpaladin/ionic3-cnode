@@ -19,6 +19,7 @@ import { schema } from '../db/schema';
 
 // components module.
 import { ComponentsModule } from '../components/components.module';
+import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { ComponentsModule } from '../components/components.module';
         StatusBar,
         SplashScreen,
         { provide: ErrorHandler, useClass: IonicErrorHandler },
+    CnodeUserProvider,
     ]
 })
 export class AppModule { }

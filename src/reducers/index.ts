@@ -47,3 +47,4 @@ export const getTopicMessage = createSelector(getTopicState, fromTopic.getTopicM
 export const getUserState = (state: State) => state.user;
 export const getUser = createSelector(getUserState, fromUser.getUser);
 export const isLogin = createSelector(getUserState, fromUser.isLogin);
+export const checkedUser = createSelector(getUserState, fromUser.checkedUser);

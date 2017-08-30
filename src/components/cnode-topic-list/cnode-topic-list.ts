@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Topic } from '../../models/topic';
 import { Observable } from 'rxjs/observable';
-import 'rxjs/add/operator/filter'
+import 'rxjs/add/operator/filter';
+// import { zip } from 'rxjs/observable/zip';
 import { Store } from '@ngrx/store';
 import { NavController, InfiniteScroll } from 'ionic-angular';
-
+// import { User } from '../../models/user';
 import * as fromRoot from '../../reducers'
 import * as topic from '../../actions/topics.action';
 
@@ -26,6 +27,7 @@ export class CnodeTopicListComponent implements OnChanges {
     pageIndex: Observable<number>;
     pageSize: Observable<number>;
     isFetching: Observable<boolean>;
+    // checkedUser: Observable<boolean>;
     currentTabName: string;
     @Input() tabName: string;
     constructor(private navCtrl: NavController, private store: Store<fromRoot.State>) {
@@ -36,6 +38,7 @@ export class CnodeTopicListComponent implements OnChanges {
         this.pageIndex = this.store.select(fromRoot.getTopicsIndex);
         this.pageSize = this.store.select(fromRoot.getTopicsPageSize);
         this.isFetching = this.store.select(fromRoot.getTopicsIsFetching);
+        // this.checkedUser = this.store.select(fromRoot.checkedUser);
     }
 
     // ngOnInit(): void {
@@ -51,6 +54,13 @@ export class CnodeTopicListComponent implements OnChanges {
         // 先告知tab被切换了， this.data 才会被切换
         this.store.dispatch(new topic.ChangeTabAction(this.tabName));
         // 判断如果data的length为0，才会去主动请求获取数据
+        // const x = zip(this.checkedUser, this.data)
+        //     .filter(([checkedUser, data]) => checkedUser === true && data.length === 0)
+        //     .subscribe(([checkedUser, data]) => {
+        //         this.store.dispatch(new topic.LoadAction({ tabName: this.tabName, pageIndex: 1 }));
+        //         // if (x !== undefined)
+        //         //     x.unsubscribe();
+        //     });
         this.data.filter(d => d.length === 0).subscribe(() => {
             this.store.dispatch(new topic.LoadAction({ tabName: this.tabName, pageIndex: 1 }));
         }).unsubscribe();
