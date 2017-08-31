@@ -48,3 +48,4 @@ export const getUserState = (state: State) => state.user;
 export const getUser = createSelector(getUserState, fromUser.getUser);
 export const isLogin = createSelector(getUserState, fromUser.isLogin);
 export const checkedUser = createSelector(getUserState, fromUser.checkedUser);
+export const getAccessToken = createSelector(getUserState, fromUser.getAccessToken);

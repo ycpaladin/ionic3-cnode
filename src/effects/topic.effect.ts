@@ -24,14 +24,14 @@ import * as fromRoot from '../reducers'
 import * as app from '../actions/app.action';
 
 import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
-import { CnodeUserProvider} from '../providers/cnode-user/cnode-user';
+import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
 
 @Injectable()
 export class TopicEffects {
     constructor(private actions$: Actions,
-         private store$: Store<fromRoot.State>, 
-         private service: CnodeWebApiProvider,
-          private user: CnodeUserProvider) { }
+        private store$: Store<fromRoot.State>,
+        private service: CnodeWebApiProvider,
+        private user: CnodeUserProvider) { }
 
     @Effect()
     loadTopics$: Observable<Action> = this.actions$
@@ -46,16 +46,15 @@ export class TopicEffects {
     @Effect()
     loadTopicById$: Observable<Action> = this.actions$.ofType(t.LOAD)
         .map((action: t.LoadAction) => action.payload)
-        // .withLatestFrom(this.store$.select(fromRoot.getUser))
-        .mergeMap(({ topicId, accessToken}) => {
+        .withLatestFrom(this.store$.select(fromRoot.getAccessToken))
+        .mergeMap(([topicId, accessToken]) => {
             // ObservableInput()
             // return [
             // if (user === undefined) {
             //     // const localUser = this.user.getLocalUser().
             // }
 
-            return this.service.getTopicById(topicId, accessToken).map(topic => 
-
+            return this.service.getTopicById(topicId, accessToken).map(topic =>
                 new t.LoadSuccessAction(topic)
             ).catch(() => of(new t.LoadFailAction('')));
             // ];
@@ -82,9 +81,12 @@ export class TopicEffects {
 
 
     @Effect()
-    upReply$: Observable<Action> = this.actions$.ofType(t.UPREPLEY).map((action: t.UpReplyAction) => action.payload)
-        .mergeMap((payload) => {
-            return this.service.upReply(payload.accessToken, payload.replyId)
+    upReply$: Observable<Action> = this.actions$
+        .ofType(t.UPREPLEY)
+        .map((action: t.UpReplyAction) => action.payload)
+        .withLatestFrom(this.store$.select(fromRoot.getAccessToken))
+        .mergeMap(([replyId, accessToken]) => {
+            return this.service.upReply(accessToken, replyId)
                 .map(r => new t.UpReplySuccessAction(r))
                 .catch(e => of(new t.UpReplyFailAction(e)))
         });
@@ -94,7 +96,8 @@ export class TopicEffects {
     collect$: Observable<Action> = this.actions$
         .ofType(t.COLLECT)
         .map((action: t.CollectAction) => action.payload)
-        .mergeMap(({ accessToken, topic_id }) =>
+        .withLatestFrom(this.store$.select(fromRoot.getAccessToken))
+        .mergeMap(([topic_id, accessToken]) =>
             this.service.collect(accessToken, topic_id)
                 .map(r => new t.CollectSuccessAction())
                 .catch(e => of(new t.CollectFailAction('收藏主题失败.')))
@@ -104,7 +107,8 @@ export class TopicEffects {
     deCollect$: Observable<Action> = this.actions$
         .ofType(t.DECOLLECT)
         .map((action: t.DeCollectAction) => action.payload)
-        .mergeMap(({ accessToken, topic_id }) =>
+        .withLatestFrom(this.store$.select(fromRoot.getAccessToken))
+        .mergeMap(([topic_id, accessToken]) =>
             this.service.deCollect(accessToken, topic_id)
                 .map(r => {
                     return new t.DeCollectSuccessAction()

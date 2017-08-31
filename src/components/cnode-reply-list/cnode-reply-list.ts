@@ -53,7 +53,7 @@ export class CnodeReplyListComponent {
                         handler: () => {
                             if (item.author.loginname !== user.loginname) {
                                 // 去点赞..
-                                this.store.dispatch(new topic.UpReplyAction({ replyId: item.id, accessToken: user.accessToken }));
+                                this.store.dispatch(new topic.UpReplyAction(item.id));
                             } else {
                                 // 不能自己给自己点赞
                                 this.onError.emit('自己给自己点赞的行为是不允许的哦！');

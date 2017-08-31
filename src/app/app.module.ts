@@ -14,8 +14,18 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { DBModule } from '@ngrx/db';
 import { schema } from '../db/schema';
-// import {} from '@ngrx/'
 
+//@ngrx
+import { StoreModule } from '@ngrx/store';
+import { reducer, appReducer } from '../reducers/index';
+import { EffectsModule } from '@ngrx/effects';
+
+//@effect
+import { TopicEffects } from '../effects/topic.effect';
+import { UserEffects } from '../effects/user.effect';
+import { AppEffect } from '../effects/app.effect';
+
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // components module.
 import { ComponentsModule } from '../components/components.module';
@@ -37,6 +47,11 @@ import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
             // 隐藏所有子页面的tabs
             tabsHideOnSubPages: 'true'
         }),
+        StoreModule.forRoot(reducer),
+        EffectsModule.forRoot([AppEffect, TopicEffects, UserEffects]),
+        StoreDevtoolsModule.instrument({
+            maxAge: 5
+        }),
         DBModule.provideDB(schema)
     ],
     bootstrap: [IonicApp],
@@ -50,7 +65,7 @@ import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
         StatusBar,
         SplashScreen,
         { provide: ErrorHandler, useClass: IonicErrorHandler },
-    CnodeUserProvider,
+        CnodeUserProvider,
     ]
 })
 export class AppModule { }

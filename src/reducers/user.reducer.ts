@@ -21,7 +21,6 @@ const initialState: State = {
 
 
 export const reducer = function (state: State = initialState, action: user.Actions | app.Actions): State {
-    console.log('user reducer ===>', action.type, state);
     switch (action.type) {
         case app.APP_INIT_SUCCESS:
 
@@ -54,3 +53,4 @@ export const getIsFetching = (state: State) => state.isFetching;
 export const getErrorMsg = (state: State) => state.message;
 export const isLogin = (state: State) => state.user !== undefined && state.user !== null;
 export const checkedUser = (state: State) => state.checked;
+export const getAccessToken = (state: State) => state.user && state.user.accessToken;

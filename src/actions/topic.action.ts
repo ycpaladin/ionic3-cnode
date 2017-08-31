@@ -21,7 +21,7 @@ export const DECOLLECT_FAIL = '[Topic] DeCollect Fail'
 
 export class LoadAction implements Action {
     readonly type = LOAD;
-    constructor(public payload: { topicId: string, accessToken: string }) { }
+    constructor(public payload: string) { }
 }
 
 export class LoadSuccessAction implements Action {
@@ -36,7 +36,7 @@ export class LoadFailAction implements Action {
 
 export class UpReplyAction implements Action {
     readonly type = UPREPLEY;
-    constructor(public payload: { replyId: string, accessToken }) { }
+    constructor(public payload: string) { }
 }
 
 export class UpReplySuccessAction implements Action {
@@ -51,7 +51,7 @@ export class UpReplyFailAction implements Action {
 
 export class CollectAction implements Action {
     readonly type = COLLECT;
-    constructor(public payload: { topic_id: string, accessToken: string }) { }
+    constructor(public payload: string) { }
 }
 
 export class CollectSuccessAction implements Action {
@@ -66,7 +66,7 @@ export class CollectFailAction implements Action {
 
 export class DeCollectAction implements Action {
     readonly type = DECOLLECT;
-    constructor(public payload: { topic_id: string, accessToken: string }) { }
+    constructor(public payload: string) { }
 }
 
 export class DeCollectSuccessAction implements Action {

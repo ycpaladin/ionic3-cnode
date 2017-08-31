@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/observable';
 import { Subscription } from 'rxjs/Subscription'
-import { zip } from 'rxjs/Observable/zip';
+// import { zip } from 'rxjs/Observable/zip';
 
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import marked from 'marked';
@@ -43,23 +43,16 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
     isLogin: Observable<boolean>;
     user: Observable<User>;
     message: Subscription;
+    checkedUser: Observable<boolean>;
     constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>, public toastCtrl: ToastController) {
 
-        const topicId = this.navParams.get('id') || '599d7facebaa046923a826db';
+        this.checkedUser = this.store.select(fromRoot.checkedUser);
         this.tabName = tabs[this.navParams.get('tabName') || 'dev'];
         this.isFetching = this.store.select(fromRoot.getTopicIsFetching);
         this.topic = this.store.select(fromRoot.getTopic);
         this.isLogin = this.store.select(fromRoot.isLogin);
         this.user = this.store.select(fromRoot.getUser);
-        this.message = this.store.select(fromRoot.getTopicMessage)
-            .filter(message => message !== null && message !== undefined && message != '')
-            .subscribe(message => {
-                this.onError(message);
-            });
-        // this.replies = this.store.select(fromRoot.getReplies);
-        this.user.subscribe(user => {
-            this.store.dispatch(new topic.LoadAction({ topicId, accessToken: user && user.accessToken }));
-        }).unsubscribe();
+
 
     }
 
@@ -72,7 +65,14 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnInit(): void {
-        // this.
+        this.message = this.store.select(fromRoot.getTopicMessage)
+            .filter(message => message !== null && message !== undefined && message != '')
+            .subscribe(message => {
+                this.onError(message);
+            });
+       
+        const topicId = this.navParams.get('id') || '599d7facebaa046923a826db';
+        this.store.dispatch(new topic.LoadAction(topicId));
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -87,11 +87,11 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
 
 
     collect() {
-        zip(this.user, this.topic).subscribe(([user, t]) => {
+        this.topic.subscribe(t => {
             if (t.is_collect === true) {
-                this.store.dispatch(new topic.DeCollectAction({ topic_id: t.id, accessToken: user.accessToken }))
+                this.store.dispatch(new topic.DeCollectAction(t.id))
             } else {
-                this.store.dispatch(new topic.CollectAction({ topic_id: t.id, accessToken: user.accessToken }))
+                this.store.dispatch(new topic.CollectAction(t.id))
             }
         }).unsubscribe();
     }

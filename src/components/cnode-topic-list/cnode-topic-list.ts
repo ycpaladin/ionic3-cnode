@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { Topic } from '../../models/topic';
 import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/filter';
+import { timer} from  'rxjs/observable/timer';
 import { zip } from 'rxjs/observable/zip';
 import { Store } from '@ngrx/store';
 import { NavController, InfiniteScroll } from 'ionic-angular';
@@ -41,19 +42,26 @@ export class CnodeTopicListComponent implements OnChanges {
         // 先告知tab被切换了， this.data 才会被切换
         this.store.dispatch(new topic.ChangeTabAction(this.tabName));
         // 判断如果data的length为0，才会去主动请求获取数据
-        const x = zip(this.checkedUser, this.data)
-            .filter(([checkedUser, data]) => {
-                return checkedUser === true && data.length === 0;
-            })
-            .subscribe(([checkedUser, data]) => {
-                // if (checkedUser === true && data.length === 0)
-                this.store.dispatch(new topic.LoadAction({ tabName: this.tabName, pageIndex: 1 }));
-                if (x !== undefined)
-                    x.unsubscribe();
-            });
+        // timer(0).
+        const timer$ = setInterval(() => {
+
+            const x = zip(this.checkedUser, this.data)
+                .filter(([checkedUser, data]) => {
+                    return checkedUser === true && data.length === 0;
+                })
+                .subscribe(([checkedUser, data]) => {
+                    this.store.dispatch(new topic.LoadAction({ tabName: this.tabName, pageIndex: 1 }));
+                    if (x !== undefined){
+                        x.unsubscribe();
+                    }
+                    clearInterval(timer$);
+                        
+                });
+        }, 0);
+
         // this.data.filter(d => d.length === 0).subscribe(() => {
         //     this.store.dispatch(new topic.LoadAction({ tabName: this.tabName, pageIndex: 1 }));
-        // }).unsubscribe();
+        // }).unsubscribe();UNMET PEER DEPENDENCY
     }
 
     /**

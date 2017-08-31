@@ -4,15 +4,6 @@ import { IonicModule } from 'ionic-angular';
 import { CnodeTopicListComponent } from './cnode-topic-list/cnode-topic-list';
 import { HttpModule } from '@angular/http';
 
-//@ngrx
-import { StoreModule } from '@ngrx/store';
-import { reducer, appReducer } from '../reducers/index';
-import { EffectsModule } from '@ngrx/effects';
-
-//@effect
-import { TopicEffects } from '../effects/topic.effect';
-import { UserEffects } from '../effects/user.effect';
-import { AppEffect } from '../effects/app.effect';
 
 import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
 import { FromNowComponent } from './from-now/from-now';
@@ -35,9 +26,7 @@ import { APP_INIT } from '../actions/app.action';
     imports: [
         IonicModule,
         HttpModule,
-        StoreModule.forRoot(reducer),
-        // StoreModule.forRoot(appReducer(reducer, { type: APP_INIT })),
-        EffectsModule.forRoot([AppEffect, TopicEffects, UserEffects])
+        
     ],
     exports: [CnodeTopicListComponent,
         FromNowComponent,
