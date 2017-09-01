@@ -40,4 +40,7 @@ export class UserEffects {
                     .catch(e => of(new user.UserLoginFail(e)))
                 )
         );
+
+
+    @Effect() userDetial$: Observable<Action> = null;
 }

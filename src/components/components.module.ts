@@ -14,6 +14,7 @@ import { CnodeReplyListComponent } from './cnode-reply-list/cnode-reply-list';
 import { CnodeMineIconComponent } from './cnode-mine-icon/cnode-mine-icon';
 
 import { APP_INIT } from '../actions/app.action';
+import { CnodeUserDetialsComponent } from './cnode-user-detials/cnode-user-detials';
 
 @NgModule({
     declarations: [CnodeTopicListComponent,
@@ -22,7 +23,8 @@ import { APP_INIT } from '../actions/app.action';
         CnodeUserIconComponent,
         CnodeReplyComponent,
         CnodeReplyListComponent,
-        CnodeMineIconComponent],
+        CnodeMineIconComponent,
+    CnodeUserDetialsComponent],
     imports: [
         IonicModule,
         HttpModule,
@@ -34,7 +36,8 @@ import { APP_INIT } from '../actions/app.action';
         CnodeUserIconComponent,
         CnodeReplyComponent,
         CnodeReplyListComponent,
-        CnodeMineIconComponent],
+        CnodeMineIconComponent,
+    CnodeUserDetialsComponent],
     providers: [CnodeWebApiProvider]
 })
 export class ComponentsModule { }

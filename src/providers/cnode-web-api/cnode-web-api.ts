@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { of } from 'rxjs/observable/of';
 
 import { Observable } from 'rxjs/Observable';
 import { Topic } from '../../models/topic';
 import { User } from '../../models/user';
+import { Message } from '../../models/message';
 import { UserDetials } from '../../models/user-detials';
-// interface Result<T> {
-
-//     success: boolean;
-//     data: T;
-// }
 
 interface GetTopicsResult {
     success: boolean;
@@ -36,7 +32,7 @@ interface LoginResult {
 }
 
 
-interface UserResult {
+interface UserDetialsResult {
     success: boolean;
     data: UserDetials;
 }
@@ -45,6 +41,14 @@ export interface ReplyResult {
     success: boolean;
     reply_id: string;
     error_msg: string
+}
+
+export interface MessageResult {
+    success: boolean;
+    data: {
+        has_read_messages: Message[],
+        hasnot_read_messages: Message[]
+    }
 }
 
 /*
@@ -129,21 +133,35 @@ export class CnodeWebApiProvider {
     replies(accesstoken: string, topic_id: string, content: string, reply_id?: string): Observable<ReplyResult> {
         return this.http.post(`${this.baseUrl}/topic/${topic_id}/replies`, { accesstoken, content, reply_id })
             .map(r => r.json() as ReplyResult)
-            // .map(t => t.success as boolean)
-            // .catch((response: Response) => of(response.json() as ReplyResult));
     }
 
     /**
      * 用户详情
      * @param loginname 用户登录名称
      */
-    getUserInfo(loginname: string): Observable<UserDetials> {
+    getUserInfo(loginname: string): Observable<UserDetialsResult> {
         return this.http.get(`${this.baseUrl}/user/${loginname}`)
-            .map(r => r.json() as UserResult)
-            .filter(r => r.success)
+            .map(r => r.json() as UserDetialsResult)
+            // .filter(r => r.success)
             .map(r => r.data)
             .catch((e, caught) => {
-                console.log(e);
+                // console.log(e);
+                return of(e);
+            });
+    }
+
+    /**
+     * 获取用户已读/未读消息
+     * @param accesstoken 
+     */
+    getMessages(accesstoken: string): Observable<MessageResult> {
+        return this.http.get(`${this.baseUrl}/messages`, {
+            params: {
+                accesstoken
+            }
+        }).map(r => r.json() as MessageResult)
+            .map(r => r.data)
+            .catch((e, caught) => {
                 return of(e);
             });
     }

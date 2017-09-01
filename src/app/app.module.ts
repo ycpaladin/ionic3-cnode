@@ -17,7 +17,7 @@ import { schema } from '../db/schema';
 
 //@ngrx
 import { StoreModule } from '@ngrx/store';
-import { reducer, appReducer } from '../reducers/index';
+import { reducer } from '../reducers/index';
 import { EffectsModule } from '@ngrx/effects';
 
 //@effect

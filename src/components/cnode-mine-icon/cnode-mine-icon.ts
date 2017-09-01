@@ -13,7 +13,7 @@ import { User } from '../../models/user';
 export class CnodeMineIconComponent implements OnInit {
 
     @Input() user: User;
-
+    
     constructor() {
         
     }

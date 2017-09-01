@@ -1,30 +1,34 @@
-import { compose, combineReducers, ActionReducerMap, ActionReducer } from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 import { createSelector } from 'reselect';
 import * as fromTopics from './topics.reducer';
 import * as fromTopic from './topic.reducer';
 import * as fromUser from './user.reducer';
+import * as fromUd from './user-detials.reducer';
 
 export interface State {
     topics: fromTopics.State,
     topic: fromTopic.State,
     user: fromUser.State,
+    ud: fromUd.State,
 }
 
-export function createReducer(asyncReducers = {}): ActionReducer<any> {
-    return combineReducers(Object.assign({
-        topics: fromTopics.reducer,
-        topic: fromTopic.reducer,
-        user: fromUser.reducer,
-        // any other reducers you always want to be available
-    }, asyncReducers));
-}
+// export function createReducer(asyncReducers = {}): ActionReducer<any> {
+//     return combineReducers(Object.assign({
+//         topics: fromTopics.reducer,
+//         topic: fromTopic.reducer,
+//         user: fromUser.reducer,
+//         ud: fromUd.reducer,
+//         // any other reducers you always want to be available
+//     }, asyncReducers));
+// }
 
-export const appReducer = createReducer();
+// export const appReducer = createReducer();
 
 export const reducer: ActionReducerMap<State> = {
     topics: fromTopics.reducer,
     topic: fromTopic.reducer,
     user: fromUser.reducer,
+    ud: fromUd.reducer,
 }
 
 
@@ -49,3 +53,10 @@ export const getUser = createSelector(getUserState, fromUser.getUser);
 export const isLogin = createSelector(getUserState, fromUser.isLogin);
 export const checkedUser = createSelector(getUserState, fromUser.checkedUser);
 export const getAccessToken = createSelector(getUserState, fromUser.getAccessToken);
+
+// 用户详情
+export const getUserDetialsState = (state: State) => state.ud;
+export const getUserDetials = createSelector(getUserDetialsState, fromUd.getUserDetials);
+export const getUserDetialsFetching = createSelector(getUserDetialsState, fromUd.getIsFetching);
+export const getUserDetialsMessage = createSelector(getUserDetialsState, fromUd.getErrorMsg);
+export const getUserDetialsError = createSelector(getUserDetialsState, fromUd.getError);
