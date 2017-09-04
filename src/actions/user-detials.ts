@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { User } from '../models/user';
 import { UserDetials } from '../models/user-detials';
 
 export const LOAD_USER_DETIALS = '[User Detials] Load';

@@ -7,16 +7,16 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/toArray';
-import { defer } from 'rxjs/observable/defer';
+// import { defer } from 'rxjs/observable/defer';
 import { of } from 'rxjs/observable/of';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions, toPayload } from '@ngrx/effects';
+import { Effect, Actions } from '@ngrx/effects';
 import { Database } from '@ngrx/db';
-import { User } from '../models/user';
+// import { User } from '../models/user';
 import * as user from '../actions/user.action';
 
 import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';

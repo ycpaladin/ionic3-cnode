@@ -13,7 +13,6 @@ import { CnodeReplyComponent } from './cnode-reply/cnode-reply';
 import { CnodeReplyListComponent } from './cnode-reply-list/cnode-reply-list';
 import { CnodeMineIconComponent } from './cnode-mine-icon/cnode-mine-icon';
 
-import { APP_INIT } from '../actions/app.action';
 import { CnodeUserDetialsComponent } from './cnode-user-detials/cnode-user-detials';
 
 @NgModule({

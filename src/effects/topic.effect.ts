@@ -10,28 +10,26 @@ import 'rxjs/add/operator/mergeMap';
 
 import { of } from 'rxjs/observable/of';
 import { Injectable } from '@angular/core';
-import { Observable, ObservableInput } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
-import { User } from '../models/user';
 
 import * as topic from '../actions/topics.action';
 import * as t from '../actions/topic.action';
 import * as reply from '../actions/reply.action';
 
 import * as fromRoot from '../reducers'
-import * as app from '../actions/app.action';
+// import * as app from '../actions/app.action';
 
 import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
-import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
+// import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
 
 @Injectable()
 export class TopicEffects {
     constructor(private actions$: Actions,
         private store$: Store<fromRoot.State>,
-        private service: CnodeWebApiProvider,
-        private user: CnodeUserProvider) { }
+        private service: CnodeWebApiProvider) { }
 
     @Effect()
     loadTopics$: Observable<Action> = this.actions$

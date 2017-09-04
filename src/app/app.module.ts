@@ -25,7 +25,7 @@ import { TopicEffects } from '../effects/topic.effect';
 import { UserEffects } from '../effects/user.effect';
 import { AppEffect } from '../effects/app.effect';
 
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+// import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // components module.
 import { ComponentsModule } from '../components/components.module';
@@ -49,9 +49,9 @@ import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
         }),
         StoreModule.forRoot(reducer),
         EffectsModule.forRoot([AppEffect, TopicEffects, UserEffects]),
-        StoreDevtoolsModule.instrument({
-            maxAge: 5
-        }),
+        // StoreDevtoolsModule.instrument({
+        //     maxAge: 5
+        // }),
         DBModule.provideDB(schema)
     ],
     bootstrap: [IonicApp],

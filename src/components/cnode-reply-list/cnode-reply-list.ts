@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, } from '@angular/core';
+import { Component,  Output, EventEmitter, } from '@angular/core';
 import { ActionSheetController, ToastController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/observable';

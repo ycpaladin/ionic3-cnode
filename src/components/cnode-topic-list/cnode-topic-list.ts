@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Topic } from '../../models/topic';
 import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/filter';
-import { timer} from  'rxjs/observable/timer';
+// import { timer} from  'rxjs/observable/timer';
 import { zip } from 'rxjs/observable/zip';
 import { Store } from '@ngrx/store';
 import { NavController, InfiniteScroll } from 'ionic-angular';

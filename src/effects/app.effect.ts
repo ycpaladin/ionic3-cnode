@@ -12,10 +12,10 @@ import { defer } from 'rxjs/observable/defer';
 import { of } from 'rxjs/observable/of';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Action, Store } from '@ngrx/store';
-import { Effect, Actions, toPayload } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { Effect, Actions } from '@ngrx/effects';
 import { Database } from '@ngrx/db';
-import * as fromRoot from '../reducers'
+// import * as fromRoot from '../reducers'
 import { User } from '../models/user';
 import * as app from '../actions/app.action';
 
@@ -23,7 +23,7 @@ import * as app from '../actions/app.action';
 @Injectable()
 export class AppEffect {
 
-    constructor(private actions$: Actions, private store: Store<fromRoot.State>, private db: Database) {}
+    constructor(private actions$: Actions, /*private store: Store<fromRoot.State>,*/ private db: Database) {}
 
     @Effect()
     init$$: Observable<Action> = this.actions$.ofType(app.APP_INIT)
