@@ -42,5 +42,5 @@ export class UserEffects {
         );
 
 
-    @Effect() userDetial$: Observable<Action> = null;
+    // @Effect() userDetial$: Observable<Action> = null;
 }
