@@ -13,14 +13,14 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <cnode-fetching *ngIf="isFetching | async"></cnode-fetching>
   <ion-list>
     <ion-item>
       <ion-title>{{ (topic | async).title }}</ion-title>
     </ion-item>
     <ion-item>
-      <ion-thumbnail item-start>
+      <ion-thumbnail item-start (click)="toUserDetials($event)">
         <img src="{{(topic | async).author.avatar_url}}" class="user-icon">
         <a class="user-name"> {{(topic | async).author.loginname}}</a>
       </ion-thumbnail>

@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../reducers'
+
+import { UserDetials } from '../../models/user-detials';
+import * as ud from '../../actions/user-detials';
 
 /**
  * Generated class for the CnodeUserDetialsComponent component.
@@ -7,16 +13,21 @@ import { Component } from '@angular/core';
  * for more info on Angular Components.
  */
 @Component({
-  selector: 'cnode-user-detials',
-  templateUrl: 'cnode-user-detials.html'
+    selector: 'cnode-user-detials',
+    templateUrl: 'cnode-user-detials.html'
 })
-export class CnodeUserDetialsComponent {
+export class CnodeUserDetialsComponent implements OnInit {
 
-  text: string;
 
-  constructor() {
-    console.log('Hello CnodeUserDetialsComponent Component');
-    this.text = 'Hello World';
-  }
+    @Input() loginname: string;
+    user: Observable<UserDetials>;
+    constructor(private store: Store<fromRoot.State>) {
+        this.user = this.store.select(fromRoot.getUserDetials);
+    }
+
+
+    ngOnInit(): void {
+        this.store.dispatch(new ud.UserDetialLoadAction(this.loginname));
+    }
 
 }

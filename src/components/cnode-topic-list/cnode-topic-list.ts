@@ -21,9 +21,6 @@ import * as topic from '../../actions/topics.action';
     templateUrl: 'cnode-topic-list.html'
 })
 export class CnodeTopicListComponent implements OnChanges {
-
-
-
     data: Observable<Topic[]>;
     pageIndex: Observable<number>;
     pageSize: Observable<number>;
@@ -100,9 +97,9 @@ export class CnodeTopicListComponent implements OnChanges {
     }
 
 
-    to(topic: Topic) {
-        this.navCtrl.push('ArticlePage', { id: topic.id, tabName: this.tabName });
-    }
+    // to(topic: Topic) {
+    //     this.navCtrl.push('ArticlePage', { id: topic.id, tabName: this.tabName });
+    // }
 
 
 }

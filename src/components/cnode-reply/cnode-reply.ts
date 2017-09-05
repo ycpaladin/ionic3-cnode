@@ -19,9 +19,6 @@ import { User } from '../../models/user';
 })
 export class CnodeReplyComponent implements OnInit, OnChanges, OnDestroy {
 
-
-
-
     @Input() topicId: string;// 主题ID
     @Input() replyItem?: { author: { loginname: string }, id: string };
     @Output() onError = new EventEmitter<string>(true);
@@ -29,7 +26,6 @@ export class CnodeReplyComponent implements OnInit, OnChanges, OnDestroy {
 
     content: string;
     user: Observable<User>;
-    // error: Subscription;
     constructor(private store: Store<fromRoot.State>) {
         this.user = this.store.select(fromRoot.getUser);
     }

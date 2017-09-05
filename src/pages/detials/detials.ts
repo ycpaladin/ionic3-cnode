@@ -8,18 +8,26 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * on Ionic pages and navigation.
  */
 
-@IonicPage()
+@IonicPage({
+    name: 'page-detials',
+    segment: 'user/:loginname'
+})
 @Component({
-  selector: 'page-detials',
-  templateUrl: 'detials.html',
+    selector: 'page-detials',
+    templateUrl: 'detials.html',
 })
 export class DetialsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DetialsPage');
-  }
+
+    loginname: string;
+    constructor(public navCtrl: NavController, public navParams: NavParams) {
+        // loginname
+        this.loginname = this.navParams.get('loginname');
+    }
+
+    ionViewDidLoad() {
+
+    }
 
 }

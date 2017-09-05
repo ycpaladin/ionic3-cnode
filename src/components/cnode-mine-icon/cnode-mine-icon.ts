@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '../../models/user';
+import { UserDetials } from '../../models/user-detials';
+import moment from 'moment';
+
 /**
  * Generated class for the CnodeMineIconComponent component.
  *
@@ -12,14 +14,18 @@ import { User } from '../../models/user';
 })
 export class CnodeMineIconComponent implements OnInit {
 
-    @Input() user: User;
-    
+    @Input() user: UserDetials;
+
     constructor() {
-        
+
     }
 
     ngOnInit(): void {
-        console.log('====>', this.user)
+
+    }
+
+    format(datetime: Date) {
+        return moment(datetime).locale('zh-cn').format('ll');
     }
 
 }

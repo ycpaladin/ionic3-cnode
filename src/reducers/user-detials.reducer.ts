@@ -1,4 +1,4 @@
-import { UserDetials } from '../models/user-detials';
+import { UserDetials, defaultObject } from '../models/user-detials';
 import * as ud from '../actions/user-detials';
 
 export interface State {
@@ -14,7 +14,7 @@ const intitalState: State = {
     error: false,
     // loginname: undefined,
     message: undefined,
-    detials: undefined
+    detials: defaultObject
 }
 
 
@@ -27,7 +27,7 @@ export const reducer = (state: State = intitalState, action: ud.Actions): State 
                 error: false,
                 // loginname: action.payload,
                 message: undefined,
-                detials: undefined
+                detials: defaultObject
             });
         case ud.LOAD_USER_DETIALS_SUCCESS:
             return Object.assign({}, state, {

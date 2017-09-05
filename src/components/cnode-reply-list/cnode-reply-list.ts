@@ -1,5 +1,5 @@
-import { Component,  Output, EventEmitter, } from '@angular/core';
-import { ActionSheetController, ToastController } from 'ionic-angular';
+import { Component, Output, EventEmitter, } from '@angular/core';
+import { ActionSheetController, ToastController, NavController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/observable';
 import { Reply } from '../../models/topic';
@@ -30,14 +30,13 @@ export class CnodeReplyListComponent {
 
     @Output() onError = new EventEmitter<string>(true);
 
-    constructor(private store: Store<fromRoot.State>, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController) {
+    constructor(public navCtrl: NavController, private store: Store<fromRoot.State>, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController) {
         this.replies = this.store.select(fromRoot.getReplies);
         this.user = this.store.select(fromRoot.getUser);
         this.isLogin = this.store.select(fromRoot.isLogin);
     }
 
     openMenu(item: Reply) {
-
         this.user.subscribe(user => {
             const upText = item.is_uped ? '取消赞' : '赞';
             let actionSheet = this.actionSheetCtrl.create({
@@ -68,6 +67,11 @@ export class CnodeReplyListComponent {
 
     convertMark(content) {
         return marked(content);
+    }
+
+    toUserDetials($event: MouseEvent, loginname: string) {
+        $event.stopPropagation(); // 阻止事件冒泡
+        this.navCtrl.push('page-detials', { loginname })
     }
 
 }

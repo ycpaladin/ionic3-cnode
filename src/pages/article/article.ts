@@ -28,15 +28,15 @@ const tabs = {
     dev: '开发'
 }
 
-@IonicPage()
+@IonicPage({
+    name: 'ArticlePage',
+    segment: 'topic/:tabName/:id'
+})
 @Component({
     selector: 'page-article',
     templateUrl: 'article.html',
 })
 export class ArticlePage implements OnInit, OnChanges, OnDestroy {
-
-
-
     tabName: string;
     isFetching: Observable<boolean>;
     topic: Observable<Topic>;
@@ -45,15 +45,12 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
     message: Subscription;
     checkedUser: Observable<boolean>;
     constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>, public toastCtrl: ToastController) {
-
         this.checkedUser = this.store.select(fromRoot.checkedUser);
         this.tabName = tabs[this.navParams.get('tabName') || 'dev'];
         this.isFetching = this.store.select(fromRoot.getTopicIsFetching);
         this.topic = this.store.select(fromRoot.getTopic);
         this.isLogin = this.store.select(fromRoot.isLogin);
         this.user = this.store.select(fromRoot.getUser);
-
-
     }
 
     ionViewDidLoad() {
@@ -70,7 +67,7 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
             .subscribe(message => {
                 this.onError(message);
             });
-       
+
         const topicId = this.navParams.get('id') || '599d7facebaa046923a826db';
         this.store.dispatch(new topic.LoadAction(topicId));
     }
@@ -103,5 +100,13 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
             position: 'middle'
         });
         toast.present(toast);
+    }
+
+    toUserDetials($event: MouseEvent) {
+        // console.log($event)
+        $event.stopPropagation();;
+        this.topic.subscribe(({ author: { loginname } }) => {
+            this.navCtrl.push('page-detials', { loginname })
+        }).unsubscribe();
     }
 }

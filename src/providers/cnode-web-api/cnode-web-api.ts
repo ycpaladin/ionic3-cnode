@@ -143,7 +143,7 @@ export class CnodeWebApiProvider {
         return this.http.get(`${this.baseUrl}/user/${loginname}`)
             .map(r => r.json() as UserDetialsResult)
             // .filter(r => r.success)
-            .map(r => r.data)
+            // .map(r => r.data)
             .catch((e, caught) => {
                 // console.log(e);
                 return of(e);

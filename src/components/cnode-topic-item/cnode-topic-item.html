@@ -1,0 +1,20 @@
+<ion-item (click)="to()">
+  <!-- <ion-thumbnail item-start>
+      <img src="{{item.author.avatar_url}}" class="icon">
+    </ion-thumbnail> -->
+  <!-- <span class="item-title"></span>
+      <span class="right reply-count"> {{ item.reply_count}}</span>
+      <span class="right">/</span>
+      <span class="right visit-count">{{item.visit_count}}</span>  -->
+
+  <h2 class="cnode-list-item-title">{{item.title}}</h2>
+  <div>
+    <span [class.top]="item.top" *ngIf="item.top">置顶</span>
+    <span [class.good]="item.good" *ngIf="item.good">精华</span>
+    <span>{{item.author.loginname}}</span>
+    <!-- topic item -->
+    <from-now class="right from-now" [dateTime]="item.create_at" *ngIf="item.create_at "></from-now>
+    <!-- reply item -->
+    <from-now class="right from-now" [dateTime]="item.last_reply_at" *ngIf="item.last_reply_at && !item.create_at"></from-now>
+  </div>
+</ion-item>
