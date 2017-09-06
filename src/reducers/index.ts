@@ -4,31 +4,22 @@ import * as fromTopics from './topics.reducer';
 import * as fromTopic from './topic.reducer';
 import * as fromUser from './user.reducer';
 import * as fromUd from './user-detials.reducer';
+import * as fromMsg from './message.reducer';
 
 export interface State {
     topics: fromTopics.State,
     topic: fromTopic.State,
     user: fromUser.State,
     ud: fromUd.State,
+    msg: fromMsg.State,
 }
-
-// export function createReducer(asyncReducers = {}): ActionReducer<any> {
-//     return combineReducers(Object.assign({
-//         topics: fromTopics.reducer,
-//         topic: fromTopic.reducer,
-//         user: fromUser.reducer,
-//         ud: fromUd.reducer,
-//         // any other reducers you always want to be available
-//     }, asyncReducers));
-// }
-
-// export const appReducer = createReducer();
 
 export const reducer: ActionReducerMap<State> = {
     topics: fromTopics.reducer,
     topic: fromTopic.reducer,
     user: fromUser.reducer,
     ud: fromUd.reducer,
+    msg: fromMsg.reducer,
 }
 
 
@@ -60,3 +51,10 @@ export const getUserDetials = createSelector(getUserDetialsState, fromUd.getUser
 export const getUserDetialsFetching = createSelector(getUserDetialsState, fromUd.getIsFetching);
 export const getUserDetialsMessage = createSelector(getUserDetialsState, fromUd.getErrorMsg);
 export const getUserDetialsError = createSelector(getUserDetialsState, fromUd.getError);
+
+// 当前登录用户的消息
+export const getMessageState = (state: State) => state.msg;
+export const getHasReadMsg = createSelector(getMessageState, fromMsg.getHasReadMessage);
+export const getHasNotReadMsg = createSelector(getMessageState, fromMsg.getHasNotReadMessage);
+export const getMsgIsFetching = createSelector(getMessageState, fromMsg.getIsFetching);
+

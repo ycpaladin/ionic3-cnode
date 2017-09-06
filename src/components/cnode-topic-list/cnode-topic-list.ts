@@ -2,11 +2,12 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Topic } from '../../models/topic';
 import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/filter';
-// import { timer} from  'rxjs/observable/timer';
+
 import { zip } from 'rxjs/observable/zip';
+// import { ofObjectChanges} from 'rxjs/observable/ofObjectChanges'
 import { Store } from '@ngrx/store';
-import { NavController, InfiniteScroll } from 'ionic-angular';
-// import { User } from '../../models/user';
+import { InfiniteScroll } from 'ionic-angular';
+
 import * as fromRoot from '../../reducers'
 import * as topic from '../../actions/topics.action';
 
@@ -27,7 +28,7 @@ export class CnodeTopicListComponent implements OnChanges {
     isFetching: Observable<boolean>;
     checkedUser: Observable<boolean>;
     @Input() tabName: string;
-    constructor(private navCtrl: NavController, private store: Store<fromRoot.State>) {
+    constructor(private store: Store<fromRoot.State>) {
         this.data = this.store.select(fromRoot.getTopics);
         this.pageIndex = this.store.select(fromRoot.getTopicsIndex);
         this.pageSize = this.store.select(fromRoot.getTopicsPageSize);
@@ -40,25 +41,26 @@ export class CnodeTopicListComponent implements OnChanges {
         this.store.dispatch(new topic.ChangeTabAction(this.tabName));
         // 判断如果data的length为0，才会去主动请求获取数据
         // timer(0).
+        let i = 0;
         const timer$ = setInterval(() => {
-
+            i += 1;
             const x = zip(this.checkedUser, this.data)
                 .filter(([checkedUser, data]) => {
                     return checkedUser === true && data.length === 0;
                 })
                 .subscribe(([checkedUser, data]) => {
                     this.store.dispatch(new topic.LoadAction({ tabName: this.tabName, pageIndex: 1 }));
-                    if (x !== undefined){
+                    if (x !== undefined) {
                         x.unsubscribe();
                     }
                     clearInterval(timer$);
-                        
+
                 });
+            console.log(i);
         }, 0);
 
-        // this.data.filter(d => d.length === 0).subscribe(() => {
-        //     this.store.dispatch(new topic.LoadAction({ tabName: this.tabName, pageIndex: 1 }));
-        // }).unsubscribe();UNMET PEER DEPENDENCY
+
+
     }
 
     /**
@@ -95,11 +97,5 @@ export class CnodeTopicListComponent implements OnChanges {
 
         }).unsubscribe();
     }
-
-
-    // to(topic: Topic) {
-    //     this.navCtrl.push('ArticlePage', { id: topic.id, tabName: this.tabName });
-    // }
-
 
 }

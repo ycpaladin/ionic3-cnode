@@ -1,0 +1,11 @@
+<ion-item-group class="ion-item-group">
+  <ion-item-divider color="light">{{title}} {{ data.length}}</ion-item-divider>
+  <ion-item *ngFor="let item of data">
+    <h2 class="cnode-list-item-title">{{item.title}}</h2>
+    <div>
+      <!-- <span>{{item.author.loginname}}</span> -->
+      
+    </div>
+  </ion-item>
+
+</ion-item-group>

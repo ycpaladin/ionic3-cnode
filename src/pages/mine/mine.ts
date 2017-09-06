@@ -27,11 +27,9 @@ export class MinePage {
         this.user = this.store.select(fromRoot.getUser);
 
     }
-    // constructor(public navCtrl: NavController, public navParams: NavParams) {
-    // }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad MinePage');
+        // console.log('ionViewDidLoad MinePage');
     }
 
 }

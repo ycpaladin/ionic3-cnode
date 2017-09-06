@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, } from '@angular/core';
 import { ActionSheetController, ToastController, NavController } from 'ionic-angular';
 
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 import { Reply } from '../../models/topic';
 import { User } from '../../models/user';
 
@@ -30,7 +30,11 @@ export class CnodeReplyListComponent {
 
     @Output() onError = new EventEmitter<string>(true);
 
-    constructor(public navCtrl: NavController, private store: Store<fromRoot.State>, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController) {
+    constructor(public navCtrl: NavController,
+        private store: Store<fromRoot.State>,
+        public actionSheetCtrl: ActionSheetController,
+        public toastCtrl: ToastController) {
+
         this.replies = this.store.select(fromRoot.getReplies);
         this.user = this.store.select(fromRoot.getUser);
         this.isLogin = this.store.select(fromRoot.isLogin);

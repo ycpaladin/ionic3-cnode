@@ -7,13 +7,7 @@
 </ion-header>
 
 <ion-content>
-    <cnode-user-detials [loginname]="(user | async).loginname"></cnode-user-detials>
-    <!-- <cnode-mine-icon [user]="user | async"></cnode-mine-icon>
-
-  <ion-list class="list list-ios">
-    <ion-item>
-
-    </ion-item>
-
-  </ion-list> -->
+  <cnode-user-detials [loginname]="(user | async).loginname" *ngIf="(isLogin | async) === true">
+    <cnode-message-list></cnode-message-list>
+  </cnode-user-detials>
 </ion-content>

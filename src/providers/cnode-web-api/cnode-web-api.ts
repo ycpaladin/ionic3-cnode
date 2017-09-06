@@ -6,7 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { Topic } from '../../models/topic';
 import { User } from '../../models/user';
-import { Message } from '../../models/message';
+import { Data } from '../../models/message';
 import { UserDetials } from '../../models/user-detials';
 
 interface GetTopicsResult {
@@ -45,10 +45,7 @@ export interface ReplyResult {
 
 export interface MessageResult {
     success: boolean;
-    data: {
-        has_read_messages: Message[],
-        hasnot_read_messages: Message[]
-    }
+    data: Data
 }
 
 /*
@@ -157,10 +154,10 @@ export class CnodeWebApiProvider {
     getMessages(accesstoken: string): Observable<MessageResult> {
         return this.http.get(`${this.baseUrl}/messages`, {
             params: {
-                accesstoken
+                accesstoken,
+                mdrender: false
             }
         }).map(r => r.json() as MessageResult)
-            .map(r => r.data)
             .catch((e, caught) => {
                 return of(e);
             });

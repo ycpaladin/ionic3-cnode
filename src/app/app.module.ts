@@ -25,6 +25,7 @@ import { TopicEffects } from '../effects/topic.effect';
 import { UserEffects } from '../effects/user.effect';
 import { AppEffect } from '../effects/app.effect';
 import { UserDetialsEffects } from '../effects/user-detials.effect';
+import { MessageEffects } from '../effects/message.effect';
 
 // import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -53,7 +54,8 @@ import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
             AppEffect,
             TopicEffects,
             UserEffects,
-            UserDetialsEffects
+            UserDetialsEffects,
+            MessageEffects
         ]),
         // StoreDevtoolsModule.instrument({
         //     maxAge: 5
