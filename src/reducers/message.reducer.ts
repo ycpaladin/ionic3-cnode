@@ -19,7 +19,7 @@ export const initialState: State = {
 }
 
 
-export const reducer = (state: State = initialState, action: msg.Actions): State => {
+export function reducer(state: State = initialState, action: msg.Actions): State {
     switch (action.type) {
         case msg.LOAD_MESSAGE:
             return Object.assign({}, state, {

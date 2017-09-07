@@ -18,7 +18,7 @@ const intitalState: State = {
 }
 
 
-export const reducer = (state: State = intitalState, action: ud.Actions): State => {
+export function reducer(state: State = intitalState, action: ud.Actions): State {
 
     switch (action.type) {
         case ud.LOAD_USER_DETIALS:

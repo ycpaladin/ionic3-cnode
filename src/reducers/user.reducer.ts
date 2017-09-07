@@ -20,7 +20,7 @@ const initialState: State = {
 }
 
 
-export const reducer = function (state: State = initialState, action: user.Actions | app.Actions): State {
+export function reducer(state: State = initialState, action: user.Actions | app.Actions): State {
     switch (action.type) {
         case app.APP_INIT_SUCCESS:
 
