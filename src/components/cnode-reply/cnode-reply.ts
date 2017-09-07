@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/observable';
@@ -22,7 +22,7 @@ export class CnodeReplyComponent implements OnInit, OnChanges, OnDestroy {
     @Input() topicId: string;// 主题ID
     @Input() replyItem?: { author: { loginname: string }, id: string };
     @Output() onError = new EventEmitter<string>(true);
-    @ViewChild('replyTextInput') replyTextInput: ElementRef;
+    // @ViewChild('replyTextInput') replyTextInput: ElementRef;
 
     content: string;
     user: Observable<User>;
@@ -31,7 +31,7 @@ export class CnodeReplyComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnInit(): void {
-        
+
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -39,9 +39,11 @@ export class CnodeReplyComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     reply() {
-        this.user.subscribe(({ accessToken }) => {
-            this.store.dispatch(new reply.ReplyAction({ accessToken, topicId: this.topicId, content: this.content, replyId: this.replyItem && this.replyItem.id }));
-        }).unsubscribe();
+        this.store.dispatch(new reply.ReplyAction({
+            topicId: this.topicId,
+            content: this.content,
+            replyId: this.replyItem && this.replyItem.id
+        }));
     }
 
     ngOnDestroy(): void {

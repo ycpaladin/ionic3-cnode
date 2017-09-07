@@ -5,7 +5,7 @@
   <div>
     <a href="javascript:;" (click)="toUserDetials($event,item.author.loginname)">{{ item.author.loginname}}</a>
     <ion-icon [name]="item.is_uped ? 'ios-thumbs-up' : 'ios-thumbs-up-outline'" *ngIf="(isLogin | async) "></ion-icon>
-    <from-now [dateTime]="item.create_at" class="right"></from-now>
+    <span [cnode-from-now]="item.create_at" class="right"></span>
   </div>
 
   <div [innerHTML]="convertMark(item.content)">

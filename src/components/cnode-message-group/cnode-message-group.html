@@ -4,7 +4,7 @@
     <h2 class="cnode-list-item-title">{{item.title}}</h2>
     <div>
       <!-- <span>{{item.author.loginname}}</span> -->
-      
+      <a href="javascript:;" (click)="toUser(item.author.loginname)">{{item.author.loginname}}</a>在<a href="javascript:;" (click)="toArticle(item.topic.id)">{{item.topic.title}}</a>
     </div>
   </ion-item>
 

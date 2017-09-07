@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Message } from '../../models/message';
 
+import { NavController } from 'ionic-angular';
+
 /**
  * Generated class for the CnodeMessageGroupComponent component.
  *
@@ -15,8 +17,15 @@ export class CnodeMessageGroupComponent {
 
     @Input() title: string;
     @Input() data: Message[];
-    constructor() {
+    constructor(public navCtrl: NavController) {
 
     }
 
+    toUser(loginname: string) {
+        this.navCtrl.push('page-detials', { loginname });
+    }
+
+    toArticle(id: string) {
+        this.navCtrl.push('ArticlePage', { id, tabName: this.title });
+    }
 }

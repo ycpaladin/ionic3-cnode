@@ -7,7 +7,7 @@ export const REPLY_FAIL = '[Topic] Reply Fail';
 
 export class ReplyAction implements Action {
     readonly type = REPLY;
-    constructor(public payload: { accessToken: string, topicId: string, content: string, replyId: string }) {
+    constructor(public payload: { topicId: string, content: string, replyId: string }) {
 
     }
 }

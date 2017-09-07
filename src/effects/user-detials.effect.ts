@@ -15,7 +15,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
-// import { User } from '../models/user';
+// import * as fromRoot from '../reducers';
 import * as ud from '../actions/user-detials';
 
 import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
@@ -32,13 +32,23 @@ export class UserDetialsEffects {
     @Effect() userDetial$: Observable<Action> = this.actions$
         .ofType(ud.LOAD_USER_DETIALS)
         .map((action: ud.UserDetialLoadAction) => action.payload)
-        .mergeMap(loginname =>
+        .mergeMap(({ loginname, isSelf }) =>
             this.service.getUserInfo(loginname)
                 .map(r => {
-                    if (r.success)
-                        return new ud.UserDetialLoadSuccessAction(r.data)
-                    else
-                        return new ud.UserDetialLoadFailAction('出现错误.')
+                    if (r.success) {
+                        if (isSelf) {
+                            return new ud.UserDetialLoadSelfSuccessAction(r.data);
+                        } else {
+                            return new ud.UserDetialLoadSuccessAction(r.data)
+                        }
+                    }
+                    else {
+                        if (isSelf) {
+                            return new ud.UserDetialLoadSelfFailAction('出现错误.');
+                        } else {
+                            return new ud.UserDetialLoadFailAction('出现错误.')
+                        }
+                    }
                 })
                 .catch(e => of(new ud.UserDetialLoadFailAction(e)))
         );

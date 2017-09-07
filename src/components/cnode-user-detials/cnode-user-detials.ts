@@ -1,10 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Store } from '@ngrx/store';
-import * as fromRoot from '../../reducers'
-
+import { Component, OnInit, Input } from '@angular/core';
 import { UserDetials } from '../../models/user-detials';
-import * as ud from '../../actions/user-detials';
+import moment from 'moment';
 
 /**
  * Generated class for the CnodeUserDetialsComponent component.
@@ -18,16 +14,18 @@ import * as ud from '../../actions/user-detials';
 })
 export class CnodeUserDetialsComponent implements OnInit {
 
+    @Input() user: UserDetials;
 
-    @Input() loginname: string;
-    user: Observable<UserDetials>;
-    constructor(private store: Store<fromRoot.State>) {
-        this.user = this.store.select(fromRoot.getUserDetials);
+    constructor() {
+
     }
 
-
     ngOnInit(): void {
-        this.store.dispatch(new ud.UserDetialLoadAction(this.loginname));
+
+    }
+
+    format(datetime: Date) {
+        return moment(datetime).locale('zh-cn').format('ll');
     }
 
 }

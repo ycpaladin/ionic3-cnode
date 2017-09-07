@@ -1,18 +1,8 @@
-<!--
-  Generated template for the ArticlePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
     <ion-title>{{tabName}}</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
 <ion-content>
   <cnode-fetching *ngIf="isFetching | async"></cnode-fetching>
   <ion-list>
@@ -25,21 +15,17 @@
         <a class="user-name"> {{(topic | async).author.loginname}}</a>
       </ion-thumbnail>
       <ion-icon [name]="(topic | async).is_collect ? 'ios-star' : 'ios-star-outline'" (click)="collect()" *ngIf="isLogin | async"></ion-icon>
-      <from-now class="right from-now" [dateTime]="(topic | async).create_at"></from-now>
-
+      <span [cnode-from-now]="(topic | async).create_at" class="right from-now"></span>
     </ion-item>
     <ion-item>
       <div class="article-content" [innerHTML]="convertMark((topic | async).content)">
-
       </div>
     </ion-item>
     <cnode-reply-list (onError)="onError($event)"></cnode-reply-list>
   </ion-list>
-
 </ion-content>
 <ion-footer *ngIf="isLogin | async">
   <ion-toolbar>
-    <!-- <ion-input type="text" value=""></ion-input><button ion-button>Default</button> -->
     <cnode-reply [topicId]="(topic | async).id" [replyItem]="replyItem" (onError)="onError($event)"></cnode-reply>
   </ion-toolbar>
 </ion-footer>

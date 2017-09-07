@@ -1,11 +1,5 @@
-<!-- <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
-</ion-header> -->
-
-<ion-content class="list">
-  <div padding>
+<ion-header>
+  <ion-toolbar>
     <ion-segment [(ngModel)]="pet">
       <ion-segment-button value="all">
         全部
@@ -26,13 +20,9 @@
         开发
       </ion-segment-button>
     </ion-segment>
-  </div>
+  </ion-toolbar>
+</ion-header>
 
-  <div class="list-content">
-    <cnode-topic-list [tabName]="pet"></cnode-topic-list>
-    <!-- <cnode-list tabName="good" *ngSwitchCase="'good'"></cnode-list>
-    <cnode-list tabName="share" *ngSwitchCase="'share'"></cnode-list>
-    <cnode-list tabName="ask" *ngSwitchCase="'ask'"></cnode-list>
-    <cnode-list tabName="job" *ngSwitchCase="'job'"></cnode-list> -->
-  </div>
+<ion-content class="list">
+  <cnode-topic-list [tabName]="pet"></cnode-topic-list>
 </ion-content>

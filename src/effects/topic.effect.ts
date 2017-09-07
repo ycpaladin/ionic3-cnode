@@ -96,7 +96,8 @@ export class TopicEffects {
     reply$: Observable<Action> = this.actions$
         .ofType(reply.REPLY)
         .map((action: reply.ReplyAction) => action.payload)
-        .mergeMap(({ accessToken, topicId, content, replyId }) =>
+        .withLatestFrom(this.store$.select(fromRoot.getAccessToken))
+        .mergeMap(([{ topicId, content, replyId }, accessToken]) =>
             this.service.replies(accessToken, topicId, content, replyId)
                 .filter(r => r.success)
                 .mergeMap(() => this.service.getTopicById(topicId, accessToken).map(t => new reply.ReplySuccessAction(t)))

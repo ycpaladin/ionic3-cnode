@@ -12,9 +12,8 @@
     <span [class.top]="item.top" *ngIf="item.top">置顶</span>
     <span [class.good]="item.good" *ngIf="item.good">精华</span>
     <span>{{item.author.loginname}}</span>
-    <!-- topic item -->
-    <from-now class="right from-now" [dateTime]="item.create_at" *ngIf="item.create_at "></from-now>
-    <!-- reply item -->
-    <from-now class="right from-now" [dateTime]="item.last_reply_at" *ngIf="item.last_reply_at && !item.create_at"></from-now>
-  </div>
+    <span [cnode-from-now]="item.create_at" class="right from-now" *ngIf="item.create_at"></span>
+    <span [cnode-from-now]="item.last_reply_at" class="right from-now" *ngIf="item.last_reply_at && !item.create_at"></span>
+    
+    </div>
 </ion-item>

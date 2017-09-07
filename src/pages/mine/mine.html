@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-  <cnode-user-detials [loginname]="(user | async).loginname" *ngIf="(isLogin | async) === true">
+  <cnode-user-detials-wrap [loginname]="(user | async).loginname" [isSelf]="true" *ngIf="(isLogin | async) === true" >
     <cnode-message-list></cnode-message-list>
-  </cnode-user-detials>
+  </cnode-user-detials-wrap>
 </ion-content>

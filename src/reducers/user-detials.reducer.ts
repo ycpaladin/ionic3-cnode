@@ -5,16 +5,16 @@ export interface State {
     isFetching: boolean;
     error: boolean;
     message: string;
-    // loginname: string;
-    detials: UserDetials
+    detials: UserDetials,
+    currentUserDetials: UserDetials
 }
 
 const intitalState: State = {
     isFetching: false,
     error: false,
-    // loginname: undefined,
     message: undefined,
-    detials: defaultObject
+    detials: defaultObject,
+    currentUserDetials: defaultObject
 }
 
 
@@ -25,22 +25,26 @@ export const reducer = (state: State = intitalState, action: ud.Actions): State 
             return Object.assign({}, state, {
                 isFetching: true,
                 error: false,
-                // loginname: action.payload,
                 message: undefined,
-                detials: defaultObject
+                // detials: defaultObject
             });
         case ud.LOAD_USER_DETIALS_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
-                // loginname: action.
                 detials: action.payload
             });
+        case ud.LOAD_USER_DETIALS_SELF_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                currentUserDetials: action.payload
+            });
         case ud.LOAD_USER_DETIALS_FAIL:
+        case ud.LOAD_USER_DETIALS_SELF_FAIL:
             return Object.assign({}, state, {
                 isFetching: false,
                 error: true,
                 message: action.payload
-            })
+            });
         default:
             return state;
     }
@@ -48,6 +52,7 @@ export const reducer = (state: State = intitalState, action: ud.Actions): State 
 
 
 export const getUserDetials = (state: State) => state.detials;
+export const getCurrentUserDetials = (state: State) => state.currentUserDetials;
 export const getError = (state: State) => state.error;
 export const getIsFetching = (state: State) => state.isFetching;
 export const getErrorMsg = (state: State) => state.message;

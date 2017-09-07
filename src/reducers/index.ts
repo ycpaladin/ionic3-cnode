@@ -48,6 +48,7 @@ export const getAccessToken = createSelector(getUserState, fromUser.getAccessTok
 // 用户详情
 export const getUserDetialsState = (state: State) => state.ud;
 export const getUserDetials = createSelector(getUserDetialsState, fromUd.getUserDetials);
+export const getCurrentUserDetials = createSelector(getUserDetialsState, fromUd.getCurrentUserDetials);
 export const getUserDetialsFetching = createSelector(getUserDetialsState, fromUd.getIsFetching);
 export const getUserDetialsMessage = createSelector(getUserDetialsState, fromUd.getErrorMsg);
 export const getUserDetialsError = createSelector(getUserDetialsState, fromUd.getError);
