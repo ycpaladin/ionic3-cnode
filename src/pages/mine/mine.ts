@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
+import { UserDetials } from '../../models/user-detials';
 import { User } from '../../models/user';
 import { Store } from '@ngrx/store';
-
+import * as ud from '../../actions/user-detials';
+import * as user from '../../actions/user.action';
 import * as fromRoot from '../../reducers'
 /**
  * Generated class for the MinePage page.
@@ -17,19 +19,39 @@ import * as fromRoot from '../../reducers'
     selector: 'page-mine',
     templateUrl: 'mine.html',
 })
-export class MinePage {
+export class MinePage implements OnInit {
 
 
     isLogin: Observable<boolean>;
     user: Observable<User>;
+    ud: Observable<UserDetials>;
     constructor(public navCtrl: NavController, private store: Store<fromRoot.State>) {
         this.isLogin = this.store.select(fromRoot.isLogin);
         this.user = this.store.select(fromRoot.getUser);
+        this.ud = this.store.select(fromRoot.getCurrentUserDetials);
+    }
 
+
+    ngOnInit(): void {
+        this.user.subscribe(({ loginname }) => {
+            this.store.dispatch(new ud.UserDetialLoadAction({ loginname, isSelf: true }));
+        }).unsubscribe();
     }
 
     ionViewDidLoad() {
-        // console.log('ionViewDidLoad MinePage');
+
+    }
+
+    toMessagePage() {
+        this.navCtrl.push('MessagePage');
+    }
+
+    toFootMarkPage() {
+        this.navCtrl.push('FootMarkPage');
+    }
+
+    logOut() {
+        this.store.dispatch(new user.UserLogoutAction())
     }
 
 }

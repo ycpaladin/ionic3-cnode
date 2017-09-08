@@ -1,5 +1,6 @@
-<cnode-user-detials [user]="user | async">
+<cnode-user-detials [user]="ud">
   <ng-content>
 
   </ng-content>
+  <cnode-user-foot-mark *ngIf="isSelf === false" [ud]="ud"></cnode-user-foot-mark>
 </cnode-user-detials>

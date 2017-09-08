@@ -1,5 +1,6 @@
 import { UserDetials, defaultObject } from '../models/user-detials';
 import * as ud from '../actions/user-detials';
+import * as user from '../actions/user.action';
 
 export interface State {
     isFetching: boolean;
@@ -18,7 +19,7 @@ const intitalState: State = {
 }
 
 
-export function reducer(state: State = intitalState, action: ud.Actions): State {
+export function reducer(state: State = intitalState, action: ud.Actions | user.Actions): State {
 
     switch (action.type) {
         case ud.LOAD_USER_DETIALS:
@@ -45,6 +46,10 @@ export function reducer(state: State = intitalState, action: ud.Actions): State 
                 error: true,
                 message: action.payload
             });
+        case user.USER_LOGOUT_SUCCESS:
+            return Object.assign({}, state, {
+                currentUserDetials: defaultObject
+            })
         default:
             return state;
     }

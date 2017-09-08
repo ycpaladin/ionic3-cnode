@@ -10,34 +10,40 @@ export const USER_LOGOUT = '[User] Logout';
 export const USER_LOGOUT_SUCCESS = '[User] Logout Success';
 export const USER_LOGOUT_FAIL = '[User] Logout Fail';
 
-export class UserLogin implements Action {
+export class UserLoginAction implements Action {
     readonly type = USER_LOGIN;
     constructor(public payload: string) { } //accesstoken
 }
 
-export class UserLoginSuccess implements Action {
+export class UserLoginSuccessAction implements Action {
     readonly type = USER_LOGIN_SUCCESS;
     constructor(public payload: User) { }
 }
 
-export class UserLoginFail implements Action {
+export class UserLoginFailAction implements Action {
     readonly type = USER_LOGIN_FAIL;
     constructor(public payload: any) { }
 }
 
-export class UserLogout implements Action {
+export class UserLogoutAction implements Action {
     readonly type = USER_LOGOUT;
-    constructor(public payload: string) { } //accesstoken
+    constructor() { } //accesstoken
 }
 
-export class UserLogoutSuccess implements Action {
+export class UserLogoutSuccessAction implements Action {
     readonly type = USER_LOGOUT_SUCCESS;
-    constructor(public payload: boolean) { }
+    constructor() { }
 }
 
-export class UserLogoutFail implements Action {
+export class UserLogoutFailAction implements Action {
     readonly type = USER_LOGOUT_FAIL;
-    constructor(public payload: any) { }
+    constructor(public payload: string) { }
 }
 
-export type Actions = UserLogin | UserLoginSuccess | UserLoginFail | UserLogout | UserLogoutSuccess | UserLogoutFail;
+export type Actions =
+    UserLoginAction |
+    UserLoginSuccessAction |
+    UserLoginFailAction |
+    UserLogoutAction |
+    UserLogoutSuccessAction |
+    UserLogoutFailAction;

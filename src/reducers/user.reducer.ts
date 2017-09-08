@@ -38,8 +38,8 @@ export function reducer(state: State = initialState, action: user.Actions | app.
             return Object.assign({}, state, { isFetching: false, user: action.payload })
         case user.USER_LOGIN_FAIL:
             return Object.assign({}, state, { isFetching: false, error: true, message: action.payload });
-        // case user.USER_LOGOUT:
-        // case user.USER_LOGOUT_SUCCESS:
+        case user.USER_LOGOUT_SUCCESS:
+            return Object.assign({}, state, { isFetching: false, user: undefined })
         // case user.USER_LOGOUT_FAIL:
         default:
             return state;

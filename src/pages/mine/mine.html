@@ -7,7 +7,31 @@
 </ion-header>
 
 <ion-content>
-  <cnode-user-detials-wrap [loginname]="(user | async).loginname" [isSelf]="true" *ngIf="(isLogin | async) === true" >
-    <cnode-message-list></cnode-message-list>
+
+  <cnode-user-detials-wrap [ud]="ud | async" [isSelf]="true" *ngIf="(isLogin | async) === true">
+    <ion-list>
+      <ion-item-group class="ion-item-group">
+        <ion-item-divider color="light">我的</ion-item-divider>
+        <button ion-item (click)="toMessagePage()">
+          <ion-icon name="text" item-start></ion-icon>
+          消息
+        </button>
+        <button ion-item>
+          <ion-icon name="heart" item-start></ion-icon>
+          收藏
+        </button>
+        <button ion-item (click)="toFootMarkPage()">
+          <ion-icon name="book" item-start></ion-icon>
+          足迹
+        </button>
+      </ion-item-group>
+
+      <ion-item-divider color="light"></ion-item-divider>
+      <ion-item (click)="logOut()">
+        退出登录
+      </ion-item>
+    </ion-list>
   </cnode-user-detials-wrap>
+
+  <cnode-user-login *ngIf="(isLogin | async) === false"></cnode-user-login>
 </ion-content>

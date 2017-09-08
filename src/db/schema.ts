@@ -9,7 +9,7 @@ export const schema: DBSchema = {
     name: 'cnode_app',
     stores: {
         user: {
-            autoIncrement: true,
+            autoIncrement: false,
             primaryKey: 'id'
         }
     }
