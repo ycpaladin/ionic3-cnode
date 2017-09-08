@@ -3,7 +3,7 @@ import { Topic } from '../../models/topic';
 import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/filter';
 
-import { zip } from 'rxjs/observable/zip';
+// import { zip } from 'rxjs/observable/zip';
 // import { ofObjectChanges} from 'rxjs/observable/ofObjectChanges'
 import { Store } from '@ngrx/store';
 import { InfiniteScroll } from 'ionic-angular';
