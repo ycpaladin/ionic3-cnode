@@ -33,5 +33,5 @@
     </ion-list>
   </cnode-user-detials-wrap>
 
-  <cnode-user-login *ngIf="(isLogin | async) === false"></cnode-user-login>
+  <cnode-user-login *ngIf="(isLogin | async) === false" (onError)="onError($event)"></cnode-user-login>
 </ion-content>

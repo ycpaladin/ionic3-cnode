@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { UserDetials } from '../../models/user-detials';
 import { User } from '../../models/user';
@@ -25,7 +25,7 @@ export class MinePage implements OnInit {
     isLogin: Observable<boolean>;
     user: Observable<User>;
     ud: Observable<UserDetials>;
-    constructor(public navCtrl: NavController, private store: Store<fromRoot.State>) {
+    constructor(public navCtrl: NavController, private store: Store<fromRoot.State>, public toastCtrl: ToastController) {
         this.isLogin = this.store.select(fromRoot.isLogin);
         this.user = this.store.select(fromRoot.getUser);
         this.ud = this.store.select(fromRoot.getCurrentUserDetials);
@@ -46,12 +46,21 @@ export class MinePage implements OnInit {
         this.navCtrl.push('MessagePage');
     }
 
-    toCollectPage(){
+    toCollectPage() {
         this.navCtrl.push('CollectPage');
     }
 
     toFootMarkPage() {
         this.navCtrl.push('FootMarkPage');
+    }
+
+    onError(msg) {
+        const toast = this.toastCtrl.create({
+            message: 'Access Token不能为空字符串',
+            duration: 3000,
+            position: 'middle'
+        });
+        toast.present(toast);
     }
 
     logOut() {

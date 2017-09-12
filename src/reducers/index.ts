@@ -47,6 +47,8 @@ export const getUser = createSelector(getUserState, fromUser.getUser);
 export const isLogin = createSelector(getUserState, fromUser.isLogin);
 export const checkedUser = createSelector(getUserState, fromUser.checkedUser);
 export const getAccessToken = createSelector(getUserState, fromUser.getAccessToken);
+export const getUserMessage = createSelector(getUserState, fromUser.getErrorMsg);
+export const getUserError = createSelector(getUserState, fromUser.getError);
 
 // 用户详情
 export const getUserDetialsState = (state: State) => state.ud;

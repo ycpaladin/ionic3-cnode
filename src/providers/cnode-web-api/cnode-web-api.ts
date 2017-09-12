@@ -76,11 +76,11 @@ export class CnodeWebApiProvider {
             .map(t => t.data);
     }
 
-    login(accessToken: string): Observable<User> {
-        return this.http.post(`${this.baseUrl}/accesstoken`, { accessToken })
+    login(accesstoken: string): Observable<User> {
+        return this.http.post(`${this.baseUrl}/accesstoken`, { accesstoken })
             .map(r => r.json() as LoginResult)
             .filter(r => r.success)
-            .map(({ id, loginname, avatar_url }) => ({ id, loginname, avatar_url, accessToken }));
+            .map(({ id, loginname, avatar_url }) => ({ id, loginname, avatar_url, accessToken: accesstoken }));
     }
 
 
