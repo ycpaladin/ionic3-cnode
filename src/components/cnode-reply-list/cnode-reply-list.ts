@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter, } from '@angular/core';
 import { ActionSheetController, ToastController, NavController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
+import { zip } from 'rxjs/Observable/zip'
 import { Reply } from '../../models/topic';
 import { User } from '../../models/user';
 
@@ -41,32 +42,36 @@ export class CnodeReplyListComponent {
     }
 
     openMenu(item: Reply) {
-        this.user.subscribe(user => {
-            const upText = item.is_uped ? '取消赞' : '赞';
-            let actionSheet = this.actionSheetCtrl.create({
-                title: `@${item.author.loginname}`,
-                buttons: [
-                    {
-                        text: '回复',
-                        handler: () => {
-                            this.replyItem = item;
-                        }
-                    }, {
-                        text: upText,
-                        handler: () => {
-                            if (item.author.loginname !== user.loginname) {
-                                // 去点赞..
-                                this.store.dispatch(new topic.UpReplyAction(item.id));
-                            } else {
-                                // 不能自己给自己点赞
-                                this.onError.emit('自己给自己点赞的行为是不允许的哦！');
+        zip(this.user, this.isLogin).subscribe
+            (([user, isLogin]) => {
+                if (isLogin === false) {
+                    return;
+                }
+                const upText = item.is_uped ? '取消赞' : '赞';
+                let actionSheet = this.actionSheetCtrl.create({
+                    title: `@${item.author.loginname}`,
+                    buttons: [
+                        {
+                            text: '回复',
+                            handler: () => {
+                                this.replyItem = item;
+                            }
+                        }, {
+                            text: upText,
+                            handler: () => {
+                                if (item.author.loginname !== user.loginname) {
+                                    // 去点赞..
+                                    this.store.dispatch(new topic.UpReplyAction(item.id));
+                                } else {
+                                    // 不能自己给自己点赞
+                                    this.onError.emit('自己给自己点赞的行为是不允许的哦！');
+                                }
                             }
                         }
-                    }
-                ]
-            });
-            actionSheet.present();
-        }).unsubscribe();
+                    ]
+                });
+                actionSheet.present();
+            }).unsubscribe();
     }
 
     convertMark(content) {

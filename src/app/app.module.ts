@@ -21,11 +21,7 @@ import { reducer } from '../reducers/index';
 import { EffectsModule } from '@ngrx/effects';
 
 //@effect
-import { TopicEffects } from '../effects/topic.effect';
-import { UserEffects } from '../effects/user.effect';
-import { AppEffect } from '../effects/app.effect';
-import { UserDetialsEffects } from '../effects/user-detials.effect';
-import { MessageEffects } from '../effects/message.effect';
+import { effects } from '../effects'
 
 // import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -50,13 +46,7 @@ import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
             tabsHideOnSubPages: 'true'
         }),
         StoreModule.forRoot(reducer),
-        EffectsModule.forRoot([
-            AppEffect,
-            TopicEffects,
-            UserEffects,
-            UserDetialsEffects,
-            MessageEffects
-        ]),
+        EffectsModule.forRoot(effects),
         // StoreDevtoolsModule.instrument({
         //     maxAge: 5
         // }),

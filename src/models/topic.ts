@@ -1,4 +1,6 @@
 
+import { Author } from './user-detials';
+
 /**
  * 文章记录
  */
@@ -16,13 +18,9 @@ export interface Topic {
     reply_count: number;
     visit_count: number;
     create_at: Date;
-    author: {
-        loginname: string;
-        avatar_url: string;
-    },
-    replies: Reply[],
-    is_collect: boolean
-
+    author: Author,
+    replies?: Reply[],
+    is_collect?: boolean
 }
 
 

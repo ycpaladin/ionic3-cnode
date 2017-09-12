@@ -46,6 +46,10 @@ export class MinePage implements OnInit {
         this.navCtrl.push('MessagePage');
     }
 
+    toCollectPage(){
+        this.navCtrl.push('CollectPage');
+    }
+
     toFootMarkPage() {
         this.navCtrl.push('FootMarkPage');
     }

@@ -119,6 +119,14 @@ export class CnodeWebApiProvider {
             });
     }
 
+    /**
+     * 用户所收藏的主题
+     * @param loginname 用户的登陆账号
+     */
+    getUserCollect(loginname: string): Observable<GetTopicsResult> {
+        return this.http.get(`${this.baseUrl}/topic_collect/${loginname}`).map(r => r.json() as GetTopicsResult);
+    }
+
 
     /**
      * 新建评论

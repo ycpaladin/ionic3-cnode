@@ -5,6 +5,7 @@ import * as fromTopic from './topic.reducer';
 import * as fromUser from './user.reducer';
 import * as fromUd from './user-detials.reducer';
 import * as fromMsg from './message.reducer';
+import * as fromCollect from './collect.reducer';
 
 export interface State {
     topics: fromTopics.State,
@@ -12,6 +13,7 @@ export interface State {
     user: fromUser.State,
     ud: fromUd.State,
     msg: fromMsg.State,
+    collect: fromCollect.State,
 }
 
 export const reducer: ActionReducerMap<State> = {
@@ -20,6 +22,7 @@ export const reducer: ActionReducerMap<State> = {
     user: fromUser.reducer,
     ud: fromUd.reducer,
     msg: fromMsg.reducer,
+    collect: fromCollect.reducer,
 }
 
 
@@ -59,3 +62,10 @@ export const getHasReadMsg = createSelector(getMessageState, fromMsg.getHasReadM
 export const getHasNotReadMsg = createSelector(getMessageState, fromMsg.getHasNotReadMessage);
 export const getMsgIsFetching = createSelector(getMessageState, fromMsg.getIsFetching);
 
+// 用户收藏
+export const getCollectState = (state: State) => state.collect;
+export const getCollect = createSelector(getCollectState, fromCollect.getCollect);
+export const getCollectMsg = createSelector(getCollectState, fromCollect.getCollectMessage);
+export const getCollectIsFetching = createSelector(getCollectState, fromCollect.getCollectIsFetching);
+export const getCollectError = createSelector(getCollectState, fromCollect.getCollectError);
+export const getCollectShouldReload = createSelector(getCollectState, fromCollect.getCollectShouldReload);
