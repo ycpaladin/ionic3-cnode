@@ -11,10 +11,7 @@ export interface State {
      * 是否正在请求
      */
     isFetching: boolean;
-    collectError: false,
-    replyError: false,
-    upError: false,
-    getTopicError: boolean,
+    error: false,
     message: string;
     topic: Topic
 }
@@ -22,10 +19,7 @@ export interface State {
 
 export const initialState: State = {
     isFetching: false,
-    collectError: false,
-    replyError: false,
-    upError: false,
-    getTopicError: false,
+    error: false,
     message: '',
     topic: defaultTopic
 }
@@ -37,13 +31,13 @@ export function reducer(state = initialState, action: topic.Actions | reply.Acti
         case reply.REPLY:
             return Object.assign({}, state, {
                 isFetching: false,
-                replyError: false,
+                error: false,
                 message: '',
             });
         case reply.REPLY_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
-                replyError: false,
+                error: false,
                 message: '',
                 topic: {
                     ...state.topic,
@@ -55,20 +49,20 @@ export function reducer(state = initialState, action: topic.Actions | reply.Acti
         case reply.REPLY_FAIL:
             return Object.assign({}, state, {
                 isFetching: false,
-                replyError: true,
+                error: true,
                 message: action.payload
             });
         case topic.LOAD:
             return Object.assign({}, state, {
                 isFetching: true,
-                getTopicError: false,
+                error: false,
                 topic: defaultTopic,
                 message: ''
             })
         case topic.LOAD_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
-                getTopicError: false,
+                error: false,
                 topic: action.payload
             });
         case topic.UPREPLEY_SUCCESS:
@@ -102,5 +96,5 @@ export const getTopicIsFetching = (state: State) => state.isFetching;
 export const getTopic = (state: State) => state.topic;
 
 export const getReplies = (state: State) => state.topic.replies;
-export const getReplyError = (state: State) => state.replyError;
+export const getReplyError = (state: State) => state.error;
 export const getTopicMessage = (state: State) => state.message;
