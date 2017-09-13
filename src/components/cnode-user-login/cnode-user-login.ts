@@ -31,13 +31,20 @@ export class CnodeUserLoginComponent implements OnChanges, OnDestroy {
         this.message = this.store$.select(fromRoot.getUserMessage);
         this.error = this.store$.select(fromRoot.getUserError);
         this.sub = zip(this.error, this.message)
-            .filter(([error]) => error === true)
-            .subscribe(([, msg]) => {
-                this.onError.emit(msg);
+            // .filter(([error]) => error === true)
+            .subscribe(([error, msg]) => {
+                console.log('======>', error, msg)
+                if (error === true)
+                    this.onError.emit(msg);
             });
+
+        // this.error.subscribe((v) => {
+        //     console.log('======>', v)
+        // })
         // this.sub = this.error.filter(t=>t === true).subscribe(()=>{
         //     console.log('true=>');
         // })
+        // this.message.subscribe()
     }
 
 

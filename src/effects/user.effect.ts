@@ -14,11 +14,12 @@ import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 import { Database } from '@ngrx/db';
-// import { User } from '../models/user';
+import { User } from '../models/user';
 import * as fromRoot from '../reducers';
 import * as user from '../actions/user.action';
+import * as ud from '../actions/user-detials';
 
-import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
+import { CnodeWebApiProvider, LoginResult, ErrorResult } from '../providers/cnode-web-api/cnode-web-api';
 import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
 
 @Injectable()
@@ -38,17 +39,31 @@ export class UserEffects {
         .ofType(user.USER_LOGIN)
         .map((action: user.UserLoginAction) => action.payload)
         .mergeMap(accessToken =>
+            // 验证用户的accessToken
             this.service.login(accessToken)
-                .mergeMap(u =>
-                    this.userLocalProvide.writeUserToLocal(u).map(result => {
-                        if (result === true) {
-                            return new user.UserLoginSuccessAction(u)
-                        } else {
-                            return new user.UserLoginFailAction('用户登陆出现错误.');
-                        }
-                    })
-                )
-                .catch(e => of(new user.UserLoginFailAction('用户登陆出现异常.')))
+                // .filter(t => t.success === true)
+                .mergeMap(r => {
+                    if (r.success === true) {
+                        const { loginname, id, avatar_url } = (<LoginResult>r);
+                        const u: User = { loginname, id, avatar_url, accessToken };
+                        // 将用户对象写入到本地的IndexedDB中
+                        return this.userLocalProvide.writeUserToLocal(u).map(result => {
+                            if (result === true) {
+                                // 写入成功之后，发送一个获取用户详细信息的请求
+                                this.store$.dispatch(new ud.UserDetialLoadAction({ loginname, isSelf: true }));
+                                return new user.UserLoginSuccessAction(u)
+                            } else {
+                                return new user.UserLoginFailAction('用户登陆出现错误.');
+                            }
+                        })
+                    } else {
+                        const { error_msg } = (<ErrorResult>r);// 来自服务端的消息
+                        return of(new user.UserLoginFailAction(error_msg));
+                    }
+                })
+                .catch(e => {
+                    return of(new user.UserLoginFailAction('用户登陆出现异常.'));
+                })
         );
 
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { of } from 'rxjs/observable/of';
 
@@ -8,6 +8,12 @@ import { Topic } from '../../models/topic';
 import { User } from '../../models/user';
 import { Data } from '../../models/message';
 import { UserDetials } from '../../models/user-detials';
+
+
+export interface ErrorResult {
+    success: boolean;
+    error_msg: string;
+}
 
 interface GetTopicsResult {
     success: boolean;
@@ -24,7 +30,7 @@ interface UpReplyResult {
     action: string;
 }
 
-interface LoginResult {
+export interface LoginResult {
     success: boolean;
     loginname: string;
     id: string;
@@ -76,13 +82,14 @@ export class CnodeWebApiProvider {
             .map(t => t.data);
     }
 
-    login(accesstoken: string): Observable<User> {
+    login(accesstoken: string): Observable<LoginResult | ErrorResult> {
         return this.http.post(`${this.baseUrl}/accesstoken`, { accesstoken })
             .map(r => r.json() as LoginResult)
-            .filter(r => r.success)
-            .map(({ id, loginname, avatar_url }) => ({ id, loginname, avatar_url, accessToken: accesstoken }));
+            .catch(this.getError);
+        // .catch(r => r.json() );
+        // .filter(r => r.success)
+        // .map(({ id, loginname, avatar_url }) => ({ id, loginname, avatar_url, accessToken: accesstoken }));
     }
-
 
     upReply(accesstoken: string, replyId: string): Observable<{ replyId: string, upType: string }> {
         return this.http.post(`${this.baseUrl}/reply/${replyId}/ups`, { accesstoken })
@@ -169,6 +176,12 @@ export class CnodeWebApiProvider {
             .catch((e, caught) => {
                 return of(e);
             });
+    }
+
+
+    private getError(err: any, caught): Observable<ErrorResult> {
+        const r = err.json() as ErrorResult;
+        return of(r);
     }
 }
 

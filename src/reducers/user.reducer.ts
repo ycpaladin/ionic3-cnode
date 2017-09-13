@@ -33,7 +33,7 @@ export function reducer(state: State = initialState, action: user.Actions | app.
                 return state;
             }
         case user.USER_LOGIN:
-            return Object.assign({}, state, { isFetching: true });
+            return Object.assign({}, state, { isFetching: true, error: false, message:undefined });
         case user.USER_LOGIN_SUCCESS:
             return Object.assign({}, state, { isFetching: false, user: action.payload })
         case user.USER_LOGIN_FAIL:
