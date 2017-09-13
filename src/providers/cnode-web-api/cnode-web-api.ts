@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { of } from 'rxjs/observable/of';
 
 import { Observable } from 'rxjs/Observable';
 import { Topic } from '../../models/topic';
-import { User } from '../../models/user';
+// import { User } from '../../models/user';
 import { Data } from '../../models/message';
 import { UserDetials } from '../../models/user-detials';
 

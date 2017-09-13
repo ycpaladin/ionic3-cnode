@@ -39,6 +39,10 @@ export class CnodeReplyComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     reply() {
+        if (this.content === '') {
+            this.onError.emit('回复内容不能为空');
+            return;
+        }
         this.store.dispatch(new reply.ReplyAction({
             topicId: this.topicId,
             content: this.content,

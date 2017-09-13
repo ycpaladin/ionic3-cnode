@@ -5,12 +5,13 @@ import { Subscription } from 'rxjs/Subscription'
 
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import marked from 'marked';
-import { Topic } from '../../models/topic';
+import { Topic, Reply } from '../../models/topic';
 import { User } from '../../models/user';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers'
 import * as topic from '../../actions/topic.action';
+
 
 /**
  * Generated class for the ArticlePage page.
@@ -44,6 +45,9 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
     user: Observable<User>;
     message: Subscription;
     checkedUser: Observable<boolean>;
+
+    replyItem: Reply;
+
     constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>, public toastCtrl: ToastController) {
         this.checkedUser = this.store.select(fromRoot.checkedUser);
         this.tabName = tabs[this.navParams.get('tabName')] && this.navParams.get('tabName');
@@ -100,6 +104,10 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
             position: 'middle'
         });
         toast.present(toast);
+    }
+
+    onSelectedItem(item: Reply) {
+        this.replyItem = item;
     }
 
     toUserDetials($event: MouseEvent) {

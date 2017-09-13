@@ -27,9 +27,11 @@ export class CnodeReplyListComponent {
     replies: Observable<Reply[]>;
     user: Observable<User>;
     isLogin: Observable<boolean>;
-    replyItem: Reply;
+    // replyItem: Reply;
 
     @Output() onError = new EventEmitter<string>(true);
+
+    @Output() onSelectedItem = new EventEmitter<Reply>(true);
 
     constructor(public navCtrl: NavController,
         private store: Store<fromRoot.State>,
@@ -54,7 +56,8 @@ export class CnodeReplyListComponent {
                         {
                             text: '回复',
                             handler: () => {
-                                this.replyItem = item;
+                                // this.replyItem = item;
+                                this.onSelectedItem.emit(item);
                             }
                         }, {
                             text: upText,

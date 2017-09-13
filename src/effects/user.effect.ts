@@ -13,7 +13,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
-import { Database } from '@ngrx/db';
 import { User } from '../models/user';
 import * as fromRoot from '../reducers';
 import * as user from '../actions/user.action';
@@ -29,8 +28,8 @@ export class UserEffects {
         private actions$: Actions,
         private store$: Store<fromRoot.State>,
         private service: CnodeWebApiProvider,
-        private userLocalProvide: CnodeUserProvider,
-        private db: Database) {
+        private userLocalProvide: CnodeUserProvider
+        ) {
 
     }
 

@@ -40,28 +40,11 @@ export class CnodeTopicListComponent implements OnChanges {
         // 先告知tab被切换了， this.data 才会被切换
         this.store.dispatch(new topic.ChangeTabAction(this.tabName));
         // 判断如果data的length为0，才会去主动请求获取数据
-        // timer(0).
-        // let i = 0;
-        // const timer$ = setInterval(() => {
-        // i += 1;
-        // const x = zip(this.checkedUser, this.data)
-        //     .filter(([checkedUser, data]) => {
-        //         return checkedUser === true && data.length === 0;
-        //     })
-        const x = this.data.filter(d => d.length === 0)
-            .subscribe(([checkedUser, data]) => {
+        this.data.filter(d => d.length === 0)
+            .subscribe(() => {
                 this.store.dispatch(new topic.LoadAction({ tabName: this.tabName, pageIndex: 1 }));
-                if (x !== undefined) {
-                    x.unsubscribe();
-                }
-                // clearInterval(timer$);
 
-            });
-        // console.log(i);
-        // }, 0);
-
-
-
+            }).unsubscribe();
     }
 
     /**

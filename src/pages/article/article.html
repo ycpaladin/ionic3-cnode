@@ -21,7 +21,7 @@
       <div class="article-content" [innerHTML]="convertMark((topic | async).content)">
       </div>
     </ion-item>
-    <cnode-reply-list (onError)="onError($event)"></cnode-reply-list>
+    <cnode-reply-list (onError)="onError($event)" (onSelectedItem)="onSelectedItem($event)"></cnode-reply-list>
   </ion-list>
 </ion-content>
 <ion-footer *ngIf="isLogin | async">
