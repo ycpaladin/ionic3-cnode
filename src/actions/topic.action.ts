@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Topic } from '../models/topic';
+import { Topic, TopicFromModel } from '../models/topic';
 
 
 export const LOAD = '[Topic] Load';
@@ -17,7 +17,16 @@ export const COLLECT_FAIL = '[Topic] Collect Fail'
 
 export const DECOLLECT = '[Topic] DeCollect';
 export const DECOLLECT_SUCCESS = '[Topic] DeCollect Success';
-export const DECOLLECT_FAIL = '[Topic] DeCollect Fail'
+export const DECOLLECT_FAIL = '[Topic] DeCollect Fail';
+
+
+export const ADD_TOPIC = '[Topic] Add';
+export const ADD_TOPIC_SUCCESS = '[Topic] Add Success';
+export const ADD_TOPIC_FAIL = '[Topic] Add Fail';
+
+export const EDIT_TOPIC = '[Topic] Edit';
+export const EDIT_TOPIC_SUCCESS = '[Topic] Edit Success';
+export const EDIT_TOPIC_FAIL = '[Topic] Edit Fail';
 
 export class LoadAction implements Action {
     readonly type = LOAD;
@@ -80,9 +89,40 @@ export class DeCollectFailAction implements Action {
 }
 
 
+export class TopicAddAction implements Action {
+    readonly type = ADD_TOPIC;
+    constructor(public payload: TopicFromModel) { }
+}
+
+export class TopicAddSuccessAction implements Action {
+    readonly type = ADD_TOPIC_SUCCESS;
+    constructor() { }
+}
+
+export class TopicAddFailAction implements Action {
+    readonly type = ADD_TOPIC_FAIL;
+    constructor(public payload: string) { }
+}
+
+export class TopicEditAction implements Action {
+    readonly type = EDIT_TOPIC;
+    constructor(public payload: TopicFromModel) { }
+}
+
+export class TopicEditSuccessAction implements Action {
+    readonly type = EDIT_TOPIC_SUCCESS;
+    constructor() { }
+}
+
+export class TopicEditFailAction implements Action {
+    readonly type = EDIT_TOPIC_FAIL;
+    constructor(public payload: string) { }
+}
 
 export type Actions =
     LoadAction | LoadSuccessAction | LoadFailAction |
     UpReplyAction | UpReplySuccessAction | UpReplyFailAction |
     CollectAction | CollectSuccessAction | CollectFailAction |
-    DeCollectAction | DeCollectSuccessAction | DeCollectFailAction;
+    DeCollectAction | DeCollectSuccessAction | DeCollectFailAction |
+    TopicAddAction | TopicAddSuccessAction | TopicAddFailAction |
+    TopicEditAction | TopicEditSuccessAction | TopicEditFailAction;

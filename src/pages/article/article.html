@@ -1,7 +1,14 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>{{tabName}}</ion-title>
-  </ion-navbar>
+  <ion-toolbar>
+    <ion-navbar>
+      <ion-title>{{tabName}}</ion-title>
+    </ion-navbar>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="toEdit()" *ngIf="(isLogin | async) && (topic | async).author_id === (user | async).id">
+        <ion-icon name="ios-create-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
   <cnode-fetching *ngIf="isFetching | async"></cnode-fetching>

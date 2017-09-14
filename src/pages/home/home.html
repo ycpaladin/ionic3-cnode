@@ -25,4 +25,9 @@
 
 <ion-content class="list">
   <cnode-topic-list [tabName]="pet"></cnode-topic-list>
+  <ion-fab top right (click)="toAdd()" *ngIf="isLogin | async">
+      <button ion-fab mini>
+          <ion-icon name="add"></ion-icon>
+      </button>
+  </ion-fab>
 </ion-content>

@@ -1,0 +1,19 @@
+<ion-list>
+  <ion-item>
+    <ion-label floating>类别</ion-label>
+    <ion-select [(ngModel)]="model.tab" interface="action-sheet" cancelText="取消">
+      <ion-option value="sharp">分享</ion-option>
+      <ion-option value="ask">问答</ion-option>
+      <ion-option value="job">招聘</ion-option>
+      <ion-option value="dev">开发</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>标题</ion-label>
+    <ion-input [(ngModel)]="model.title" ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>内容</ion-label>
+    <ion-input [(ngModel)]="model.content"></ion-input>
+  </ion-item>
+</ion-list>

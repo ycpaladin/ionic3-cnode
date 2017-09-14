@@ -1,11 +1,6 @@
-
-import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/mergeMap';
 
 import { of } from 'rxjs/observable/of';
@@ -20,10 +15,8 @@ import * as t from '../actions/topic.action';
 import * as reply from '../actions/reply.action';
 
 import * as fromRoot from '../reducers'
-// import * as app from '../actions/app.action';
 
-import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
-// import { CnodeUserProvider } from '../providers/cnode-user/cnode-user';
+import { CnodeWebApiProvider, ErrorResult, TopicUpdateResult } from '../providers/cnode-web-api/cnode-web-api'; //, TopicUpdateResult
 
 @Injectable()
 export class TopicEffects {
@@ -106,5 +99,38 @@ export class TopicEffects {
                     return of(new reply.ReplyFailAction(error_msg));
                 })
         );
+
+    @Effect()
+    add$: Observable<Action> = this.actions$
+        .ofType(t.ADD_TOPIC)
+        .map((action: t.TopicAddAction) => action.payload)
+        .withLatestFrom(this.store$.select(fromRoot.getAccessToken))
+        .mergeMap(([model, accessToken]) => this.service.addTopic(accessToken, model).map(r => {
+            if (r.success === true) {
+                // const { topic_id } = <TopicUpdateResult>r;
+                this.store$.dispatch(new topic.ReloadAction({ tabName: model.tab, pageIndex: 1 }));
+                return new t.TopicAddSuccessAction();
+            } else {
+                const { error_msg } = <ErrorResult>r;
+                return new t.TopicAddFailAction(error_msg);
+            }
+        })).catch(e => of(new t.TopicAddFailAction('新建主题失败.')));
+
+    @Effect()
+    edit$: Observable<Action> = this.actions$
+        .ofType(t.EDIT_TOPIC)
+        .map((action: t.TopicEditAction) => action.payload)
+        .withLatestFrom(this.store$.select(fromRoot.getAccessToken))
+        .mergeMap(([model, accessToken]) => this.service.editTopic(accessToken, model).map(r => {
+            if (r.success === true) {
+                const { topic_id } = <TopicUpdateResult>r;
+                this.store$.dispatch(new topic.ReloadAction({ tabName: model.tab, pageIndex: 1 }));
+                this.store$.dispatch(new t.LoadAction(topic_id))
+                return new t.TopicEditSuccessAction();
+            } else {
+                const { error_msg } = <ErrorResult>r;
+                return new t.TopicEditFailAction(error_msg);
+            }
+        })).catch(e => of(new t.TopicEditFailAction('编辑主题失败.')));
 
 }

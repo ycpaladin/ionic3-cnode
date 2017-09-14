@@ -6,6 +6,7 @@ import * as fromUser from './user.reducer';
 import * as fromUd from './user-detials.reducer';
 import * as fromMsg from './message.reducer';
 import * as fromCollect from './collect.reducer';
+import * as form from './form.reducer';
 
 export interface State {
     topics: fromTopics.State,
@@ -14,6 +15,7 @@ export interface State {
     ud: fromUd.State,
     msg: fromMsg.State,
     collect: fromCollect.State,
+    form: form.State,
 }
 
 export const reducer: ActionReducerMap<State> = {
@@ -23,6 +25,7 @@ export const reducer: ActionReducerMap<State> = {
     ud: fromUd.reducer,
     msg: fromMsg.reducer,
     collect: fromCollect.reducer,
+    form: form.reducer,
 }
 
 
@@ -71,3 +74,8 @@ export const getCollectMsg = createSelector(getCollectState, fromCollect.getColl
 export const getCollectIsFetching = createSelector(getCollectState, fromCollect.getCollectIsFetching);
 export const getCollectError = createSelector(getCollectState, fromCollect.getCollectError);
 export const getCollectShouldReload = createSelector(getCollectState, fromCollect.getCollectShouldReload);
+
+// 新建主题 编辑主题
+export const getFormState = (state: State) => state.form;
+export const getFormError = createSelector(getFormState, form.getError);
+export const getFormMsg = createSelector(getFormState, form.getMessage);

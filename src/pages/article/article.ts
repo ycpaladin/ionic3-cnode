@@ -45,9 +45,8 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
     user: Observable<User>;
     message: Subscription;
     checkedUser: Observable<boolean>;
-
     replyItem: Reply;
-
+    // showEditButton: boolean = false;
     constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>, public toastCtrl: ToastController) {
         this.checkedUser = this.store.select(fromRoot.checkedUser);
         this.tabName = tabs[this.navParams.get('tabName')] && this.navParams.get('tabName');
@@ -55,10 +54,15 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
         this.topic = this.store.select(fromRoot.getTopic);
         this.isLogin = this.store.select(fromRoot.isLogin);
         this.user = this.store.select(fromRoot.getUser);
+
+        // this.isLogin.mergeMap()
+        // zip(this.isLogin, this.user, this.topic).subscribe(([isLogin, user, topic]) => {
+        //     this.showEditButton = (isLogin === true && topic.author_id === user.id);
+        // }).unsubscribe();
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad ArticlePage');
+        // console.log('ionViewDidLoad ArticlePage');
     }
 
     convertMark(content) {
@@ -117,4 +121,19 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
             this.navCtrl.push('page-detials', { loginname })
         }).unsubscribe();
     }
+
+    toEdit() {
+        this.topic.subscribe(({ id: topic_id, title, content, tab }) => {
+            this.navCtrl.push('edit', {
+                model: {
+                    topic_id,
+                    tab,
+                    title,
+                    content
+                }
+            })
+        }).unsubscribe();
+    }
+
+
 }

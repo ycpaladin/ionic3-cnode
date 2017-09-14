@@ -57,3 +57,11 @@ export const defaultTopic: Topic = {
     replies: [],
     is_collect: false
 }
+
+
+export interface TopicFromModel {
+    topic_id: string;
+    title: string;
+    tab: string;
+    content: string;
+}

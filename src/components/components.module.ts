@@ -17,6 +17,7 @@ import { CnodeMessageListComponent } from './cnode-message-list/cnode-message-li
 import { CnodeMessageGroupComponent } from './cnode-message-group/cnode-message-group';
 import { CnodeUserLoginComponent } from './cnode-user-login/cnode-user-login';
 import { CnodeUserFootMarkComponent } from './cnode-user-foot-mark/cnode-user-foot-mark';
+import { CnodeTopicFormComponent } from './cnode-topic-form/cnode-topic-form';
 
 @NgModule({
     declarations: [
@@ -30,8 +31,9 @@ import { CnodeUserFootMarkComponent } from './cnode-user-foot-mark/cnode-user-fo
         CnodeTopicItemComponent,
         CnodeMessageListComponent,
         CnodeMessageGroupComponent,
-    CnodeUserLoginComponent,
-    CnodeUserFootMarkComponent,
+        CnodeUserLoginComponent,
+        CnodeUserFootMarkComponent,
+        CnodeTopicFormComponent,
     ],
     imports: [
         IonicModule,
@@ -49,8 +51,9 @@ import { CnodeUserFootMarkComponent } from './cnode-user-foot-mark/cnode-user-fo
         CnodeTopicItemComponent,
         CnodeMessageListComponent,
         CnodeMessageGroupComponent,
-    CnodeUserLoginComponent,
-    CnodeUserFootMarkComponent,
+        CnodeUserLoginComponent,
+        CnodeUserFootMarkComponent,
+        CnodeTopicFormComponent,
     ],
     providers: [CnodeWebApiProvider]
 })

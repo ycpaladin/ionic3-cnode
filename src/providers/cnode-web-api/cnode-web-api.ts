@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import { of } from 'rxjs/observable/of';
 
 import { Observable } from 'rxjs/Observable';
-import { Topic } from '../../models/topic';
+import { Topic, TopicFromModel } from '../../models/topic';
 // import { User } from '../../models/user';
 import { Data } from '../../models/message';
 import { UserDetials } from '../../models/user-detials';
@@ -52,6 +52,11 @@ export interface ReplyResult {
 export interface MessageResult {
     success: boolean;
     data: Data
+}
+
+export interface TopicUpdateResult {
+    success: boolean;
+    topic_id: string
 }
 
 /*
@@ -176,6 +181,36 @@ export class CnodeWebApiProvider {
             .catch((e, caught) => {
                 return of(e);
             });
+    }
+
+    /**
+     * 新建主题
+     * @param accesstoken 用户的 accessToken
+     * @param topic 
+     */
+    addTopic(accesstoken: string, topic: TopicFromModel): Observable<TopicUpdateResult | ErrorResult> {
+        return this.http
+            .post(`${this.baseUrl}/topics`, {
+                accesstoken,
+                ...topic
+            })
+            .map(r => r.json() as TopicUpdateResult)
+            .catch(this.getError);
+    }
+
+    /**
+     * 编辑主题
+     * @param accesstoken 用户的 accessToken
+     * @param topic 
+     */
+    editTopic(accesstoken: string, topic: TopicFromModel): Observable<TopicUpdateResult | ErrorResult> {
+        return this.http
+            .post(`${this.baseUrl}/topics/update`, {
+                accesstoken,
+                ...topic
+            })
+            .map(r => r.json() as TopicUpdateResult)
+            .catch(this.getError);
     }
 
 

@@ -5,4 +5,11 @@ page-home {
   .list>div.scroll-content {
     overflow-y: hidden;
   }
+
+  ion-fab{
+      opacity: 0.7;
+  }
+  ion-fab:hover{
+      opacity: 1;
+  }
 }
