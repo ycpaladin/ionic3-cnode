@@ -1,4 +1,4 @@
-import { Component, OnDestroy,ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -38,7 +38,6 @@ export class EditPage implements OnDestroy {
         this.result = zip(this.error, this.message).subscribe(([error, message]) => {
             if (error === false) {
                 this.navCtrl.pop();
-                this.store.dispatch(new LeaveEditPageAction())
             } else {
                 // 提示消息
                 const toast = this.toastCtrl.create({
@@ -63,5 +62,6 @@ export class EditPage implements OnDestroy {
 
     ngOnDestroy(): void {
         this.result.unsubscribe();
+        this.store.dispatch(new LeaveEditPageAction());
     }
 }

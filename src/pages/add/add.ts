@@ -38,7 +38,6 @@ export class AddPage implements OnDestroy {
         this.result = zip(this.error, this.message).subscribe(([error, message]) => {
             if (error === false) {
                 this.navCtrl.pop();
-                this.store.dispatch(new LeaveAddPageAction())
             } else {
                 // 提示消息
                 const toast = this.toastCtrl.create({
@@ -63,6 +62,7 @@ export class AddPage implements OnDestroy {
 
     ngOnDestroy(): void {
         this.result.unsubscribe();
+        this.store.dispatch(new LeaveAddPageAction());
     }
 
 }
