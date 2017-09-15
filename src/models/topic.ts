@@ -60,7 +60,7 @@ export const defaultTopic: Topic = {
 
 
 export interface TopicFromModel {
-    topic_id: string;
+    topic_id?: string;
     title: string;
     tab: string;
     content: string;

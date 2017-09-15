@@ -28,6 +28,9 @@ export const EDIT_TOPIC = '[Topic] Edit';
 export const EDIT_TOPIC_SUCCESS = '[Topic] Edit Success';
 export const EDIT_TOPIC_FAIL = '[Topic] Edit Fail';
 
+export const LEAVE_ADD_PAGE = '[Topic] Levae Add Page';
+export const LEAVE_EDIT_PAGE = '[Topic] Levae Edit Page';
+
 export class LoadAction implements Action {
     readonly type = LOAD;
     constructor(public payload: string) { }
@@ -119,10 +122,18 @@ export class TopicEditFailAction implements Action {
     constructor(public payload: string) { }
 }
 
+export class LeaveAddPageAction implements Action {
+    readonly type = LEAVE_ADD_PAGE;
+}
+export class LeaveEditPageAction implements Action {
+    readonly type = LEAVE_EDIT_PAGE;
+}
+
 export type Actions =
     LoadAction | LoadSuccessAction | LoadFailAction |
     UpReplyAction | UpReplySuccessAction | UpReplyFailAction |
     CollectAction | CollectSuccessAction | CollectFailAction |
     DeCollectAction | DeCollectSuccessAction | DeCollectFailAction |
     TopicAddAction | TopicAddSuccessAction | TopicAddFailAction |
-    TopicEditAction | TopicEditSuccessAction | TopicEditFailAction;
+    TopicEditAction | TopicEditSuccessAction | TopicEditFailAction |
+    LeaveAddPageAction | LeaveEditPageAction;

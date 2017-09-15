@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { TopicFromModel } from '../../models/topic';
+import { NgForm } from '@angular/forms';
+
 
 /**
  * Generated class for the CnodeTopicFormComponent component.
@@ -15,8 +17,13 @@ export class CnodeTopicFormComponent {
 
     @Input() model: TopicFromModel;
 
+    @ViewChild('form') form: NgForm;
     constructor() {
-        
+
+    }
+
+    get isValid(): boolean {
+        return this.form.valid;
     }
 
 }

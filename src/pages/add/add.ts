@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { zip } from 'rxjs/Observable/zip';
 
 import * as fromRoot from '../../reducers';
-import { TopicAddAction } from '../../actions/topic.action';
+import { TopicAddAction, LeaveAddPageAction } from '../../actions/topic.action';
 
 import { TopicFromModel } from '../../models/topic';
+import { CnodeTopicFormComponent } from '../../components/cnode-topic-form/cnode-topic-form';
 
 /**
  * Generated class for the AddPage page.
@@ -21,23 +23,31 @@ import { TopicFromModel } from '../../models/topic';
     selector: 'page-add',
     templateUrl: 'add.html',
 })
-export class AddPage {
+export class AddPage implements OnDestroy {
+
 
     model: TopicFromModel;
     error: Observable<boolean>;
     message: Observable<string>;
+    result: Subscription;
+    @ViewChild("form") form: CnodeTopicFormComponent;
     constructor(public navCtrl: NavController, public navParams: NavParams, public store: Store<fromRoot.State>, public toastCtrl: ToastController) {
-        this.model = { title: '', tab: 'dev', content: '', topic_id: '' }; //this.navParams.get('model') || 
+        this.model = { title: '', tab: 'dev', content: '' }; //this.navParams.get('model') || 
         this.error = this.store.select(fromRoot.getFormError);
         this.message = this.store.select(fromRoot.getFormMsg);
-        zip(this.error, this.message).filter(([error,]) => error === true).subscribe(([error, message]) => {
-            // 提示消息
-            const toast = this.toastCtrl.create({
-                message,
-                duration: 3000,
-                position: 'middle'
-            });
-            toast.present(toast);
+        this.result = zip(this.error, this.message).subscribe(([error, message]) => {
+            if (error === false) {
+                this.navCtrl.pop();
+                this.store.dispatch(new LeaveAddPageAction())
+            } else {
+                // 提示消息
+                const toast = this.toastCtrl.create({
+                    message,
+                    duration: 3000,
+                    position: 'middle'
+                });
+                toast.present(toast);
+            }
         });
     }
 
@@ -46,7 +56,13 @@ export class AddPage {
     }
 
     submit() {
-        this.store.dispatch(new TopicAddAction(this.model));
+        if (this.form.isValid === true) {
+            this.store.dispatch(new TopicAddAction(this.model));
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.result.unsubscribe();
     }
 
 }
