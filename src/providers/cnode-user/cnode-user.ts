@@ -26,19 +26,20 @@ export class CnodeUserProvider {
         return this.db.query('user').map((u: User) => u).toArray()
             .map((users: User[]) => {
                 if (users.length === 0) {
-                    const user: User = {
-                        id: '5816eed5b37ee8fb33978977',
-                        loginname: 'ycpaladin',
-                        avatar_url: 'https://avatars3.githubusercontent.com/u/3337028?v=4&s=120',
-                        accessToken: '62c2f14b-24e0-4a3e-bc34-a5c0baeab5e0'
-                    };
-                    const x = this.writeUserToLocal(user).subscribe((result) => {
-                        console.log('app starting... =>', result);
-                        if (result === true) {
-                            x.unsubscribe();
-                        }
-                    });
-                    return user;
+                    // const user: User = {
+                    //     id: '5816eed5b37ee8fb33978977',
+                    //     loginname: 'ycpaladin',
+                    //     avatar_url: 'https://avatars3.githubusercontent.com/u/3337028?v=4&s=120',
+                    //     accessToken: '62c2f14b-24e0-4a3e-bc34-a5c0baeab5e0'
+                    // };
+                    // const x = this.writeUserToLocal(user).subscribe((result) => {
+                    //     console.log('app starting... =>', result);
+                    //     if (result === true) {
+                    //         x.unsubscribe();
+                    //     }
+                    // });
+                    // return user;
+                    return undefined;
                 } else {
                     return users[0];
                 }

@@ -1,5 +1,6 @@
 import { Message } from '../models/message';
 import * as msg from '../actions/message.action';
+import * as user from '../actions/user.action';
 
 export interface State {
     isFetching: boolean;
@@ -19,7 +20,7 @@ export const initialState: State = {
 }
 
 
-export function reducer(state: State = initialState, action: msg.Actions): State {
+export function reducer(state: State = initialState, action: msg.Actions | user.Actions): State {
     switch (action.type) {
         case msg.LOAD_MESSAGE:
             return Object.assign({}, state, {
@@ -39,6 +40,11 @@ export function reducer(state: State = initialState, action: msg.Actions): State
                 isFetching: false,
                 error: true,
                 message: action.payload
+            });
+        case user.USER_LOGOUT_SUCCESS:
+            return Object.assign({}, state, {
+                hasRead: [],
+                hasNotRead: []
             });
         default:
             return state;

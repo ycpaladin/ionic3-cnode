@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
+// import { zip } from 'rxjs/Observable/zip';
 import { Subscription } from 'rxjs/Subscription';
 import { UserDetials } from '../../models/user-detials';
 import { User } from '../../models/user';
@@ -24,18 +25,21 @@ export class MinePage implements OnInit {
 
 
     isLogin: Observable<boolean>;
-    user: Observable<User>;
+    loginname: Observable<string>;
     ud: Observable<UserDetials>;
     sub: Subscription;
     constructor(public navCtrl: NavController, private store: Store<fromRoot.State>, public toastCtrl: ToastController) {
         this.isLogin = this.store.select(fromRoot.isLogin);
-        this.user = this.store.select(fromRoot.getUser);
+        this.loginname = this.store.select(fromRoot.getLoginname);
         this.ud = this.store.select(fromRoot.getCurrentUserDetials);
     }
 
 
     ngOnInit(): void {
-        this.user.subscribe(({ loginname }) => {
+        // zip(this.isLogin, this.user).filter(([isLogin]) => isLogin === true).subscribe(([, { loginname }]) => {
+        //     this.store.dispatch(new ud.UserDetialLoadAction({ loginname, isSelf: true }));
+        // }).unsubscribe();
+        this.loginname.filter(loginname => loginname !== undefined).subscribe(loginname => {
             this.store.dispatch(new ud.UserDetialLoadAction({ loginname, isSelf: true }));
         }).unsubscribe();
     }

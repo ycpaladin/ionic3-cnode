@@ -33,7 +33,7 @@ export function reducer(state: State = initialState, action: user.Actions | app.
                 return state;
             }
         case user.USER_LOGIN:
-            return Object.assign({}, state, { isFetching: true, error: false, message:undefined });
+            return Object.assign({}, state, { isFetching: true, error: false, message: undefined });
         case user.USER_LOGIN_SUCCESS:
             return Object.assign({}, state, { isFetching: false, user: action.payload })
         case user.USER_LOGIN_FAIL:
@@ -58,3 +58,4 @@ export const getErrorMsg = (state: State) => state.message;
 export const isLogin = (state: State) => state.user !== undefined && state.user !== null;
 export const checkedUser = (state: State) => state.checked;
 export const getAccessToken = (state: State) => state.user && state.user.accessToken;
+export const getLoginname = (state: State) => state.user && state.user.loginname;

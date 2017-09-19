@@ -1,5 +1,6 @@
 import * as collect from '../actions/collect.action';
 import * as topic from '../actions/topic.action';
+import * as user from '../actions/user.action';
 import { Topic } from '../models/topic';
 
 export interface State {
@@ -18,7 +19,7 @@ const defaultState: State = {
     shouldReload: true
 }
 
-export function reducer(state: State = defaultState, action: collect.Actions | topic.Actions) {
+export function reducer(state: State = defaultState, action: collect.Actions | topic.Actions | user.Actions) {
     switch (action.type) {
         case topic.COLLECT_SUCCESS: // 收藏成功
         case topic.DECOLLECT_SUCCESS: // 取消收藏成功
@@ -44,6 +45,11 @@ export function reducer(state: State = defaultState, action: collect.Actions | t
                 isFetching: false,
                 error: true,
                 message: action.payload
+            });
+
+        case user.USER_LOGOUT_SUCCESS:
+            return Object.assign({}, state, {
+                collect: []
             });
         default:
             return state;
