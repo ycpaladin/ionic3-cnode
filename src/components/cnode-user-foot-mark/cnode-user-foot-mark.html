@@ -1,8 +1,8 @@
 <ion-item-group class="ion-item-group">
   <ion-item-divider color="light">最近主题</ion-item-divider>
-  <cnode-topic-item *ngFor="let item of ud.recent_topics" [item]="item"></cnode-topic-item>
+  <cnode-topic-item *ngFor="let item of ud.recent_topics" [item]="item" tabName="最近主题"></cnode-topic-item>
 </ion-item-group>
 <ion-item-group class="ion-item-group">
   <ion-item-divider color="light">最近回复</ion-item-divider>
-  <cnode-topic-item *ngFor="let item of ud.recent_replies" [item]="item"></cnode-topic-item>
+  <cnode-topic-item *ngFor="let item of ud.recent_replies" [item]="item" tabName="最近回复"></cnode-topic-item>
 </ion-item-group>

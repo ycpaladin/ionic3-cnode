@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { AlertController } from 'ionic-angular';
 
 import { UserLoginAction } from '../../actions/user.action';
@@ -19,9 +19,7 @@ import { zip } from 'rxjs/Observable/zip';
     selector: 'cnode-user-login',
     templateUrl: 'cnode-user-login.html'
 })
-export class CnodeUserLoginComponent implements OnChanges, OnDestroy {
-
-
+export class CnodeUserLoginComponent implements OnDestroy {
 
     @Output() onError = new EventEmitter<string>();
     message: Observable<string>;
@@ -31,29 +29,11 @@ export class CnodeUserLoginComponent implements OnChanges, OnDestroy {
         this.message = this.store$.select(fromRoot.getUserMessage);
         this.error = this.store$.select(fromRoot.getUserError);
         this.sub = zip(this.error, this.message)
-            // .filter(([error]) => error === true)
             .subscribe(([error, msg]) => {
-                console.log('======>', error, msg)
                 if (error === true)
                     this.onError.emit(msg);
             });
-
-        // this.error.subscribe((v) => {
-        //     console.log('======>', v)
-        // })
-        // this.sub = this.error.filter(t=>t === true).subscribe(()=>{
-        //     console.log('true=>');
-        // })
-        // this.message.subscribe()
     }
-
-
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log('1111=>')
-    }
-
-
-
 
     login() {
         let prompt = this.alertCtrl.create({

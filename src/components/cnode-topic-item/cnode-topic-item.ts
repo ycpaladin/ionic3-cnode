@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
-
 import { Author } from '../../models/user-detials';
-
 import { NavController } from 'ionic-angular';
 
 /**
@@ -16,15 +14,16 @@ import { NavController } from 'ionic-angular';
 })
 export class CnodeTopicItemComponent {
 
-    @Input() item: { id: string, title: string, top?: boolean, good?: boolean, author: Author, create_at: Date, last_reply_at: Date };
-
+    @Input() item: { id: string, title: string, top?: boolean, good?: boolean, author: Author, create_at: Date, last_reply_at: Date, tab?: string };
+    @Input() tabName?: string;
     constructor(private navCtrl: NavController, ) {
 
     }
 
 
     to() {
-        this.navCtrl.push('ArticlePage', { id: this.item.id, tabName: 'dev' });
+        // const tabName = this.item.tab || '';
+        this.navCtrl.push('ArticlePage', { id: this.item.id, tabName: this.tabName });
     }
 
 

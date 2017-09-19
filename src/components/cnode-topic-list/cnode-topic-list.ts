@@ -43,7 +43,6 @@ export class CnodeTopicListComponent implements OnChanges {
         this.data.filter(d => d.length === 0)
             .subscribe(() => {
                 this.store.dispatch(new topic.LoadAction({ tabName: this.tabName, pageIndex: 1 }));
-
             }).unsubscribe();
     }
 

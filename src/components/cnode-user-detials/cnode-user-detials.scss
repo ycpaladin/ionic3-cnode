@@ -1,13 +1,20 @@
 cnode-user-detials {
-    
-    cnode-user-icon{
-        float: left;
-        img{
-            width: 75px;
-        }
+  cnode-user-icon {
+    float: left;
+    img {
+      width: 75px;
     }
-
-    .ion-item-group{
-        margin-top: 30px;
+  }
+  ion-card {
+    display: flex;
+    >div {
+      padding: 0 12px;
+      >div{
+        padding: 0 12px;
+      }
     }
+  }
+  .ion-item-group {
+    margin-top: 30px;
+  }
 }

@@ -44,12 +44,12 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
     isLogin: Observable<boolean>;
     user: Observable<User>;
     message: Subscription;
-    checkedUser: Observable<boolean>;
+    // checkedUser: Observable<boolean>;
     replyItem: Reply;
     // showEditButton: boolean = false;
     constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>, public toastCtrl: ToastController) {
-        this.checkedUser = this.store.select(fromRoot.checkedUser);
-        this.tabName = tabs[this.navParams.get('tabName')] && this.navParams.get('tabName');
+        // this.checkedUser = this.store.select(fromRoot.checkedUser);
+        this.tabName = tabs[this.navParams.get('tabName')] || this.navParams.get('tabName');
         this.isFetching = this.store.select(fromRoot.getTopicIsFetching);
         this.topic = this.store.select(fromRoot.getTopic);
         this.isLogin = this.store.select(fromRoot.isLogin);

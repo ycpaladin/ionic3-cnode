@@ -4,7 +4,7 @@
     </ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <cnode-topic-item *ngFor="let item of data | async" [item]="item"></cnode-topic-item>
+    <cnode-topic-item *ngFor="let item of data | async" [item]="item" [tabName]="tabName"></cnode-topic-item>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="正在获取...">

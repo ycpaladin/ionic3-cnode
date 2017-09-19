@@ -1,15 +1,15 @@
 <ion-card padding>
   <cnode-user-icon [imgUrl]="user.avatar_url"></cnode-user-icon>
-  <ion-title>{{user.loginname}}</ion-title>
   <div>
-    积分：{{user.score}}
+    <ion-title>{{user.loginname}}</ion-title>
+    <div>
+      积分：{{user.score}}
+    </div>
+    <div>
+      注册于: {{ format(user.create_at)}}
+    </div>
   </div>
-  <div>
-    注册于: {{ format(user.create_at)}}
-  </div>
-
 </ion-card>
 <ng-content>
 
 </ng-content>
-
