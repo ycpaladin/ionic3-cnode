@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 // import { zip } from 'rxjs/Observable/zip';
 import { Subscription } from 'rxjs/Subscription';
 import { UserDetials } from '../../models/user-detials';
-import { User } from '../../models/user';
+// import { User } from '../../models/user';
 import { Store } from '@ngrx/store';
 import * as ud from '../../actions/user-detials';
 import * as user from '../../actions/user.action';
