@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { DirectivesModule } from '../directives/directives.module';
+// import { DirectivesModule } from '../directives/directives.module';
+import { PipesModule } from '../pipes/pipes.module';
 
 import { CnodeWebApiProvider } from '../providers/cnode-web-api/cnode-web-api';
 
@@ -40,7 +41,8 @@ import { CnodeTopicFormComponent } from './cnode-topic-form/cnode-topic-form';
         IonicModule,
         HttpModule,
         FormsModule,
-        DirectivesModule,
+        PipesModule,
+        // DirectivesModule,
     ],
     exports: [
         CnodeTopicListComponent,

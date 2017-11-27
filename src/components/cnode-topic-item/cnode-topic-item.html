@@ -12,8 +12,12 @@
     <span [class.top]="item.top" *ngIf="item.top">置顶</span>
     <span [class.good]="item.good" *ngIf="item.good">精华</span>
     <span>{{item.author.loginname}}</span>
-    <span [cnode-from-now]="item.create_at" class="right from-now" *ngIf="item.create_at"></span>
-    <span [cnode-from-now]="item.last_reply_at" class="right from-now" *ngIf="item.last_reply_at && !item.create_at"></span>
-    
-    </div>
+    <span class="right from-now" *ngIf="item.create_at">
+      {{item.create_at | dateformat}}
+    </span>
+    <span class="right from-now" *ngIf="item.last_reply_at && !item.create_at">
+      {{item.last_reply_at | dateformat}}
+    </span>
+
+  </div>
 </ion-item>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/observable';
 import { Subscription } from 'rxjs/Subscription'
 // import { zip } from 'rxjs/Observable/zip';
@@ -37,32 +37,23 @@ const tabs = {
     selector: 'page-article',
     templateUrl: 'article.html',
 })
-export class ArticlePage implements OnInit, OnChanges, OnDestroy {
+export class ArticlePage implements OnInit, OnDestroy {
     tabName: string;
     isFetching: Observable<boolean>;
     topic: Observable<Topic>;
     isLogin: Observable<boolean>;
     user: Observable<User>;
     message: Subscription;
-    // checkedUser: Observable<boolean>;
     replyItem: Reply;
-    // showEditButton: boolean = false;
     constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>, public toastCtrl: ToastController) {
-        // this.checkedUser = this.store.select(fromRoot.checkedUser);
         this.tabName = tabs[this.navParams.get('tabName')] || this.navParams.get('tabName');
         this.isFetching = this.store.select(fromRoot.getTopicIsFetching);
         this.topic = this.store.select(fromRoot.getTopic);
         this.isLogin = this.store.select(fromRoot.isLogin);
         this.user = this.store.select(fromRoot.getUser);
-
-        // this.isLogin.mergeMap()
-        // zip(this.isLogin, this.user, this.topic).subscribe(([isLogin, user, topic]) => {
-        //     this.showEditButton = (isLogin === true && topic.author_id === user.id);
-        // }).unsubscribe();
     }
 
     ionViewDidLoad() {
-        // console.log('ionViewDidLoad ArticlePage');
     }
 
     convertMark(content) {
@@ -79,11 +70,6 @@ export class ArticlePage implements OnInit, OnChanges, OnDestroy {
         const topicId = this.navParams.get('id') || '599d7facebaa046923a826db';
         this.store.dispatch(new topic.LoadAction(topicId));
     }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        // this.replyItem = undefined;
-    }
-
 
     ngOnDestroy(): void {
         this.message.unsubscribe();
